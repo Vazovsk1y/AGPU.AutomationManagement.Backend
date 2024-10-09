@@ -2,7 +2,7 @@
 
 public static class Roles
 {
-    public const string Admin = "Администратор";
+    public const string Administrator = "Администратор";
 
     public const string DeputyAdministrator = "Заместитель администратора";
 
