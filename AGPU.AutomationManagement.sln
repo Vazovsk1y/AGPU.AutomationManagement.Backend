@@ -1,0 +1,21 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7084D192-5F1F-4857-9745-4E94F5112F75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AGPU.AutomationManagement.Domain", "src\AGPU.AutomationManagement.Domain\AGPU.AutomationManagement.Domain.csproj", "{79FDFBC1-5842-48B0-90DD-794BC7B72D65}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{79FDFBC1-5842-48B0-90DD-794BC7B72D65} = {7084D192-5F1F-4857-9745-4E94F5112F75}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{79FDFBC1-5842-48B0-90DD-794BC7B72D65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79FDFBC1-5842-48B0-90DD-794BC7B72D65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79FDFBC1-5842-48B0-90DD-794BC7B72D65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79FDFBC1-5842-48B0-90DD-794BC7B72D65}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
