@@ -1,5 +1,4 @@
-﻿using AGPU.AutomationManagement.Domain.Constants;
-using AGPU.AutomationManagement.Domain.Entities;
+﻿using AGPU.AutomationManagement.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AGPU.AutomationManagement.DAL.PostgreSQL.Extensions;

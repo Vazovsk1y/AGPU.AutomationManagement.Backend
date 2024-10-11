@@ -1,6 +1,6 @@
-﻿namespace AGPU.AutomationManagement.Application.User;
+﻿namespace AGPU.AutomationManagement.Application.User.Commands;
 
-public record UserRegisterDTO(
+public record UserRegisterCommand(
     string Username,
     string Password,
     string FullName,

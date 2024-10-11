@@ -5,6 +5,11 @@ namespace AGPU.AutomationManagement.Application.Extensions;
 
 public static class ResultEx
 {
+    public static T Match<T, TValue>(this Result<TValue> result, Func<TValue, T> onSuccess, Func<IEnumerable<Error>, T> onFailure)
+    {
+        return result.IsSuccess ? onSuccess.Invoke(result.Value) : onFailure.Invoke(result.Errors);
+    }
+    
     public static Result<T> ToFailure<T>(this Result result)
     {
         if (result.IsSuccess)

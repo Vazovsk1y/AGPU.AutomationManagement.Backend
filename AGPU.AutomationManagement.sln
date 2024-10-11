@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AGPU.AutomationManagement.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AGPU.AutomationManagement.Application", "src\AGPU.AutomationManagement.Application\AGPU.AutomationManagement.Application.csproj", "{B14DC3CB-5D81-429A-A864-D716D44F1394}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AGPU.AutomationManagement.WebApi", "src\AGPU.AutomationManagement.WebApi\AGPU.AutomationManagement.WebApi.csproj", "{0C85E0EE-A79E-4C0A-9731-94C7470C13AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,7 @@ Global
 		{79FDFBC1-5842-48B0-90DD-794BC7B72D65} = {7084D192-5F1F-4857-9745-4E94F5112F75}
 		{7091C666-BBE4-49CD-9566-A192839F73F1} = {7084D192-5F1F-4857-9745-4E94F5112F75}
 		{B14DC3CB-5D81-429A-A864-D716D44F1394} = {7084D192-5F1F-4857-9745-4E94F5112F75}
+		{0C85E0EE-A79E-4C0A-9731-94C7470C13AE} = {7084D192-5F1F-4857-9745-4E94F5112F75}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{79FDFBC1-5842-48B0-90DD-794BC7B72D65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -31,5 +34,9 @@ Global
 		{B14DC3CB-5D81-429A-A864-D716D44F1394}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B14DC3CB-5D81-429A-A864-D716D44F1394}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B14DC3CB-5D81-429A-A864-D716D44F1394}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C85E0EE-A79E-4C0A-9731-94C7470C13AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C85E0EE-A79E-4C0A-9731-94C7470C13AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C85E0EE-A79E-4C0A-9731-94C7470C13AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C85E0EE-A79E-4C0A-9731-94C7470C13AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
