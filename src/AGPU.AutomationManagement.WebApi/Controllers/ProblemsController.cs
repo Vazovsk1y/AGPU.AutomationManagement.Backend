@@ -1,5 +1,7 @@
-﻿using AGPU.AutomationManagement.Application.Common;
+﻿using System.ComponentModel.DataAnnotations;
+using AGPU.AutomationManagement.Application.Common;
 using AGPU.AutomationManagement.Application.Extensions;
+using AGPU.AutomationManagement.Application.Problem;
 using AGPU.AutomationManagement.Application.Problem.Commands;
 using AGPU.AutomationManagement.Application.Problem.Queries;
 using AGPU.AutomationManagement.Domain.Enums;
@@ -32,5 +34,18 @@ public class ProblemsController : BaseController
 
         var result = await useCase.ExecuteAsync(new ProblemTypesFetchQuery(), cancellationToken);
         return result.Match(e => Ok(e.Select(i => new { Value = (int)i, Name = i.ToString() })), BadRequestWithProblemDetails);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> ProblemsPageFetch(
+        [FromQuery] [Range(1, int.MaxValue)] int pageIndex, 
+        [FromQuery] [Range(1, int.MaxValue)] int pageSize,
+        [FromServices] IUseCase<PageDTO<ProblemDTO>, ProblemsPageFetchQuery> useCase,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var result = await useCase.ExecuteAsync(new ProblemsPageFetchQuery(new PagingOptions(pageIndex, pageSize)), cancellationToken);
+        return result.Match(e => Ok(e.ToPageResponse(i => i.ToResponse())), BadRequestWithProblemDetails);
     }
 }

@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace AGPU.AutomationManagement.Application.Validators;
 
-public class UserRegisterCommandValidator : AbstractValidator<UserRegisterCommand>
+internal class UserRegisterCommandValidator : AbstractValidator<UserRegisterCommand>
 {
     public UserRegisterCommandValidator()
     {

@@ -29,7 +29,7 @@ public static class Registrator
 
         services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
 
-        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly(), includeInternalTypes: true);
         
         return services;
     }

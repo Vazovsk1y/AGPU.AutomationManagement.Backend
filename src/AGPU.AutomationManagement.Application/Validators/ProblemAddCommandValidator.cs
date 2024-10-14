@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace AGPU.AutomationManagement.Application.Validators;
 
-public class ProblemAddCommandValidator : AbstractValidator<ProblemAddCommand>
+internal class ProblemAddCommandValidator : AbstractValidator<ProblemAddCommand>
 {
     public ProblemAddCommandValidator()
     {
