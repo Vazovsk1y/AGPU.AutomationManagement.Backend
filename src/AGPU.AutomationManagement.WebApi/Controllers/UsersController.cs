@@ -17,7 +17,7 @@ public class UsersController : BaseController
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var result = await useCase.HandleAsync(request.ToRequest(), cancellationToken);
+        var result = await useCase.ExecuteAsync(request.ToCommand(), cancellationToken);
         return result.Match(Ok, BadRequestWithProblemDetails);
     }
 }

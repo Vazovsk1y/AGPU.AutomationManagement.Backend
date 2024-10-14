@@ -1,4 +1,5 @@
-﻿using FluentValidation.Results;
+﻿using AGPU.AutomationManagement.Application.Common;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Identity;
 
 namespace AGPU.AutomationManagement.Application.Extensions;

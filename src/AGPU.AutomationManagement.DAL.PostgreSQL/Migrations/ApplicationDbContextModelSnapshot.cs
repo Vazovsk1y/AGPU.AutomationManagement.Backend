@@ -22,7 +22,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.ProblemSolvingRequest", b =>
+            modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.Problem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -64,7 +64,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
 
                     b.HasIndex("CreatorId");
 
-                    b.ToTable("ProblemSolvingRequests");
+                    b.ToTable("Problems");
                 });
 
             modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.Role", b =>
@@ -96,29 +96,29 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("44f87209-32bb-4f9c-9051-6e7890e1f9fd"),
-                            ConcurrencyStamp = "22cf7525-2999-4d66-b33a-88934eeb5159",
+                            Id = new Guid("58f0f42b-fb6f-4e0f-a6e7-be75ffbcab76"),
+                            ConcurrencyStamp = "c400be7e-eefa-4f7f-a31b-768f0c78cba2",
                             Name = "Администратор",
                             NormalizedName = "АДМИНИСТРАТОР"
                         },
                         new
                         {
-                            Id = new Guid("e7488e45-903b-4a0f-a885-321205c543e0"),
-                            ConcurrencyStamp = "08eb45f3-070e-411c-95c2-b68a31047230",
+                            Id = new Guid("2dfa051f-4106-41c8-b7de-18b4e4fd8ecb"),
+                            ConcurrencyStamp = "78e917d6-eb5d-4c49-a722-2e6dde1aa59e",
                             Name = "Заместитель администратора",
                             NormalizedName = "ЗАМЕСТИТЕЛЬ АДМИНИСТРАТОРА"
                         },
                         new
                         {
-                            Id = new Guid("0bccee56-b020-407d-80ea-dfb321477335"),
-                            ConcurrencyStamp = "a2980d2e-f974-4af9-aa37-f80a7617d684",
+                            Id = new Guid("a9145197-6932-4367-a167-0f00dd71de07"),
+                            ConcurrencyStamp = "35aa2877-0ece-444c-a1e2-601e349fae0a",
                             Name = "Инженер",
                             NormalizedName = "ИНЖЕНЕР"
                         },
                         new
                         {
-                            Id = new Guid("6847109f-49ac-4c9b-bd05-d66cc62a883d"),
-                            ConcurrencyStamp = "36c79a2a-2d76-4bf3-8a35-a646093ff685",
+                            Id = new Guid("30227619-8c40-4fb0-a20f-6a151b280b2b"),
+                            ConcurrencyStamp = "c3678fc0-69aa-430d-8c1d-985c230fd75d",
                             Name = "Пользователь",
                             NormalizedName = "ПОЛЬЗОВАТЕЛЬ"
                         });
@@ -303,7 +303,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.ProblemSolvingRequest", b =>
+            modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.Problem", b =>
                 {
                     b.HasOne("AGPU.AutomationManagement.Domain.Entities.User", "Contractor")
                         .WithMany()

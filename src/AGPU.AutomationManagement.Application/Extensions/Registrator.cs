@@ -1,10 +1,5 @@
 ﻿using System.Reflection;
 using AGPU.AutomationManagement.Application.Common;
-using AGPU.AutomationManagement.Application.Role;
-using AGPU.AutomationManagement.Application.Role.Queries;
-using AGPU.AutomationManagement.Application.Role.UseCases;
-using AGPU.AutomationManagement.Application.User.Commands;
-using AGPU.AutomationManagement.Application.User.UseCases;
 using AGPU.AutomationManagement.DAL.PostgreSQL;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
@@ -16,10 +11,13 @@ public static class Registrator
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddScoped<IUseCase<Guid, UserRegisterCommand>, UserRegisterUseCase>();
-        services.Decorate<IUseCase<Guid, UserRegisterCommand>, ValidationUseCaseDecorator<Guid, UserRegisterCommand>>();
-
-        services.AddScoped<IUseCase<IReadOnlyCollection<RoleDTO>, RolesFetchQuery>, RolesFetchUseCase>();
+        services.AddUseCases();
+        
+        services.Decorate(typeof(IUseCase<,>), typeof(ValidationUseCaseDecorator<,>));
+        
+        // services.Decorate(typeof(IUseCase<>), typeof(ValidationUseCaseDecorator<>));
+        
+        services.AddSingleton(TimeProvider.System);
 
         services
             .AddIdentityCore<Domain.Entities.User>(e =>
@@ -29,8 +27,32 @@ public static class Registrator
             .AddRoles<Domain.Entities.Role>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
+        services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
+
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         
         return services;
+    }
+
+    private static void AddUseCases(this IServiceCollection services)
+    {
+        var useCaseTypes = Assembly.GetExecutingAssembly().GetTypes()
+            .Where(t => t is { IsClass: true, IsAbstract: false } &&
+                        t.GetInterfaces().Any(i => i.IsGenericType && !typeof(IDecorator).IsAssignableFrom(t) &&
+                                                   (i.GetGenericTypeDefinition() == typeof(IUseCase<,>) || 
+                                                    i.GetGenericTypeDefinition() == typeof(IUseCase<>))));
+
+        foreach (var useCase in useCaseTypes)
+        {
+            var interfaces = useCase.GetInterfaces()
+                .Where(i => i.IsGenericType &&
+                            (i.GetGenericTypeDefinition() == typeof(IUseCase<,>) || 
+                             i.GetGenericTypeDefinition() == typeof(IUseCase<>)));
+
+            foreach (var @interface in interfaces)
+            {
+                services.AddScoped(@interface, useCase);
+            }
+        }
     }
 }

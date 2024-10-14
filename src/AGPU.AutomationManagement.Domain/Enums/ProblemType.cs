@@ -2,8 +2,8 @@
 
 public enum ProblemType
 {
+    Other,
     InternetIssue,
     HardwareIssue,
     SoftwareBug,
-    Other,
 }

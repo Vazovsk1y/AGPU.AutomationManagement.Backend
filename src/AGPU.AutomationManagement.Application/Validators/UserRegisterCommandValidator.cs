@@ -7,6 +7,8 @@ public class UserRegisterCommandValidator : AbstractValidator<UserRegisterComman
 {
     public UserRegisterCommandValidator()
     {
+        // TODO: Использовать ограничения.
+        
         RuleFor(e => e.Email)
             .NotEmpty()
             .EmailAddress();

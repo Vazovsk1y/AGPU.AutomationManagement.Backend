@@ -1,6 +1,6 @@
 ﻿namespace AGPU.AutomationManagement.Domain.Constants.Constraints;
 
-public static class ProblemSolvingRequestConstraints
+public static class ProblemConstraints
 {
     public const int DescriptionMaxLength = 50;
 

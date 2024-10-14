@@ -6,24 +6,24 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AGPU.AutomationManagement.DAL.PostgreSQL.Configurations;
 
-public sealed class ProblemSolvingRequestConfiguration : IEntityTypeConfiguration<ProblemSolvingRequest>
+public sealed class ProblemConfiguration : IEntityTypeConfiguration<Problem>
 {
-    public void Configure(EntityTypeBuilder<ProblemSolvingRequest> builder)
+    public void Configure(EntityTypeBuilder<Problem> builder)
     {
         builder
             .HasKey(e => e.Id);
 
         builder
             .Property(e => e.Description)
-            .HasMaxLength(ProblemSolvingRequestConstraints.DescriptionMaxLength);
+            .HasMaxLength(ProblemConstraints.DescriptionMaxLength);
 
         builder
             .Property(e => e.Audience)
-            .HasMaxLength(ProblemSolvingRequestConstraints.AudienceMaxLength);
+            .HasMaxLength(ProblemConstraints.AudienceMaxLength);
 
         builder
             .Property(e => e.Status)
-            .HasConversion(e => e.ToString(), e => Enum.Parse<ProblemSolvingRequestStatus>(e));
+            .HasConversion(e => e.ToString(), e => Enum.Parse<ProblemStatus>(e));
 
         builder
             .HasOne(e => e.Contractor)

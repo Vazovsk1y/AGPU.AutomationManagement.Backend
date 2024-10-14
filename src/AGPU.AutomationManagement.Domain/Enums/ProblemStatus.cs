@@ -1,7 +1,8 @@
 ﻿namespace AGPU.AutomationManagement.Domain.Enums;
 
-public enum ProblemSolvingRequestStatus
+public enum ProblemStatus
 {
+    Pending,
     InProgress,
     Completed
 }

@@ -14,7 +14,7 @@ public interface IReadDbContext
     
     DbSet<IdentityUserClaim<Guid>> UserClaims { get; }
     
-    DbSet<ProblemSolvingRequest> ProblemSolvingRequests { get; }
+    DbSet<Problem> Problems { get; }
 
     DbSet<Role> Roles { get; }
     

@@ -12,11 +12,11 @@ internal sealed class UserRegisterUseCase(
     IWriteDbContext writeDbContext,
     UserManager<Domain.Entities.User> userManager) : IUseCase<Guid, UserRegisterCommand>
 {
-    public async Task<Result<Guid>> HandleAsync(UserRegisterCommand parameter, CancellationToken cancellationToken)
+    public async Task<Result<Guid>> ExecuteAsync(UserRegisterCommand parameter, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         
-        // TODO: Проверка ролей. Создать декоратор.
+        // TODO: Авторизация.
         
         await using var transaction = await writeDbContext.Database.BeginTransactionAsync(cancellationToken);
         var user = new Domain.Entities.User

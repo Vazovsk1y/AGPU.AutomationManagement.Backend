@@ -162,7 +162,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProblemSolvingRequests",
+                name: "Problems",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -177,14 +177,14 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProblemSolvingRequests", x => x.Id);
+                    table.PrimaryKey("PK_Problems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProblemSolvingRequests_AspNetUsers_ContractorId",
+                        name: "FK_Problems_AspNetUsers_ContractorId",
                         column: x => x.ContractorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ProblemSolvingRequests_AspNetUsers_CreatorId",
+                        name: "FK_Problems_AspNetUsers_CreatorId",
                         column: x => x.CreatorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -196,10 +196,10 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("0bccee56-b020-407d-80ea-dfb321477335"), "a2980d2e-f974-4af9-aa37-f80a7617d684", "Инженер", "ИНЖЕНЕР" },
-                    { new Guid("44f87209-32bb-4f9c-9051-6e7890e1f9fd"), "22cf7525-2999-4d66-b33a-88934eeb5159", "Администратор", "АДМИНИСТРАТОР" },
-                    { new Guid("6847109f-49ac-4c9b-bd05-d66cc62a883d"), "36c79a2a-2d76-4bf3-8a35-a646093ff685", "Пользователь", "ПОЛЬЗОВАТЕЛЬ" },
-                    { new Guid("e7488e45-903b-4a0f-a885-321205c543e0"), "08eb45f3-070e-411c-95c2-b68a31047230", "Заместитель администратора", "ЗАМЕСТИТЕЛЬ АДМИНИСТРАТОРА" }
+                    { new Guid("2dfa051f-4106-41c8-b7de-18b4e4fd8ecb"), "78e917d6-eb5d-4c49-a722-2e6dde1aa59e", "Заместитель администратора", "ЗАМЕСТИТЕЛЬ АДМИНИСТРАТОРА" },
+                    { new Guid("30227619-8c40-4fb0-a20f-6a151b280b2b"), "c3678fc0-69aa-430d-8c1d-985c230fd75d", "Пользователь", "ПОЛЬЗОВАТЕЛЬ" },
+                    { new Guid("58f0f42b-fb6f-4e0f-a6e7-be75ffbcab76"), "c400be7e-eefa-4f7f-a31b-768f0c78cba2", "Администратор", "АДМИНИСТРАТОР" },
+                    { new Guid("a9145197-6932-4367-a167-0f00dd71de07"), "35aa2877-0ece-444c-a1e2-601e349fae0a", "Инженер", "ИНЖЕНЕР" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -241,13 +241,13 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProblemSolvingRequests_ContractorId",
-                table: "ProblemSolvingRequests",
+                name: "IX_Problems_ContractorId",
+                table: "Problems",
                 column: "ContractorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProblemSolvingRequests_CreatorId",
-                table: "ProblemSolvingRequests",
+                name: "IX_Problems_CreatorId",
+                table: "Problems",
                 column: "CreatorId");
         }
 
@@ -270,7 +270,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ProblemSolvingRequests");
+                name: "Problems");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

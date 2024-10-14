@@ -11,7 +11,7 @@ public sealed class ApplicationDbContext(DbContextOptions options) :
     IdentityDbContext<User, Role, Guid, IdentityUserClaim<Guid>, UserRole, IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>(options), 
     IWriteDbContext
 {
-    public DbSet<ProblemSolvingRequest> ProblemSolvingRequests { get; init; }
+    public DbSet<Problem> Problems { get; init; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

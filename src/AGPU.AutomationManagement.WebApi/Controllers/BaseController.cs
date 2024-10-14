@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Net.Mime;
-using AGPU.AutomationManagement.Application;
+using AGPU.AutomationManagement.Application.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AGPU.AutomationManagement.WebApi.Controllers;

@@ -1,4 +1,4 @@
-﻿namespace AGPU.AutomationManagement.Application;
+﻿namespace AGPU.AutomationManagement.Application.Common;
 
 public sealed record Error
 {

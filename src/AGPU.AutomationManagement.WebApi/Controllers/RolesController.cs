@@ -16,9 +16,9 @@ public class RolesController : BaseController
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var result = await useCase.HandleAsync(new RolesFetchQuery(), cancellationToken);
+        var result = await useCase.ExecuteAsync(new RolesFetchQuery(), cancellationToken);
         return result.Match(
-            e => Ok(e.Select(o => new RoleResponse(o.Id, o.Name))), 
+            e => Ok(e.Select(o => new RoleResponse(o.Id, o.Name))),
             BadRequestWithProblemDetails);
     }
 }

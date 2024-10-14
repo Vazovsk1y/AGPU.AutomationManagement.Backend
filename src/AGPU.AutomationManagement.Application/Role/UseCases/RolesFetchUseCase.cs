@@ -7,11 +7,11 @@ namespace AGPU.AutomationManagement.Application.Role.UseCases;
 
 internal sealed class RolesFetchUseCase(IReadDbContext readDbContext) : IUseCase<IReadOnlyCollection<RoleDTO>, RolesFetchQuery>
 {
-    public async Task<Result<IReadOnlyCollection<RoleDTO>>> HandleAsync(RolesFetchQuery parameter, CancellationToken cancellationToken)
+    public async Task<Result<IReadOnlyCollection<RoleDTO>>> ExecuteAsync(RolesFetchQuery parameter, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         
-        // TODO: Проверка ролей.
+        // TODO: Авторизация.
         
         var result = await readDbContext
             .Roles
