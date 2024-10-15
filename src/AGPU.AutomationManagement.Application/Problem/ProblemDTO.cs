@@ -1,4 +1,5 @@
-﻿using AGPU.AutomationManagement.Domain.Enums;
+﻿using AGPU.AutomationManagement.Application.User;
+using AGPU.AutomationManagement.Domain.Enums;
 
 namespace AGPU.AutomationManagement.Application.Problem;
 

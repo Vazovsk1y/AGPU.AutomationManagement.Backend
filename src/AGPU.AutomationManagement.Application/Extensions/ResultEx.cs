@@ -11,6 +11,11 @@ public static class ResultEx
         return result.IsSuccess ? onSuccess.Invoke(result.Value) : onFailure.Invoke(result.Errors);
     }
     
+    public static T Match<T>(this Result result, Func<T> onSuccess, Func<IEnumerable<Error>, T> onFailure)
+    {
+        return result.IsSuccess ? onSuccess.Invoke() : onFailure.Invoke(result.Errors);
+    }
+    
     public static Result<T> ToFailure<T>(this Result result)
     {
         if (result.IsSuccess)

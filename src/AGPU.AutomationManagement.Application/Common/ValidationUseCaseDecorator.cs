@@ -4,11 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace AGPU.AutomationManagement.Application.Common;
 
-internal class ValidationUseCaseDecorator<TOut, TIn>(
+internal sealed class ValidationUseCaseDecorator<TOut, TIn>(
     IServiceScopeFactory serviceScopeFactory,
     IUseCase<TOut, TIn> decorated) : IUseCase<TOut, TIn>, IDecorator
 {
-    public virtual async Task<Result<TOut>> ExecuteAsync(TIn parameter, CancellationToken cancellationToken)
+    public async Task<Result<TOut>> ExecuteAsync(TIn parameter, CancellationToken cancellationToken)
     {
         using var scope = serviceScopeFactory.CreateScope();
 
@@ -30,11 +30,11 @@ internal class ValidationUseCaseDecorator<TOut, TIn>(
     }
 }
 
-internal class ValidationUseCaseDecorator<TIn>(
+internal sealed class ValidationUseCaseDecorator<TIn>(
     IServiceScopeFactory serviceScopeFactory,
     IUseCase<TIn> decorated) : IUseCase<TIn>, IDecorator
 {
-    public virtual async Task<Result> ExecuteAsync(TIn parameter, CancellationToken cancellationToken)
+    public async Task<Result> ExecuteAsync(TIn parameter, CancellationToken cancellationToken)
     {
         using var scope = serviceScopeFactory.CreateScope();
 

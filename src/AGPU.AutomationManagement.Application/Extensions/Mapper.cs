@@ -1,4 +1,5 @@
 ﻿using AGPU.AutomationManagement.Application.Problem;
+using AGPU.AutomationManagement.Application.User;
 
 namespace AGPU.AutomationManagement.Application.Extensions;
 

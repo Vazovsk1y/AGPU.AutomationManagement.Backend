@@ -48,4 +48,16 @@ public class ProblemsController : BaseController
         var result = await useCase.ExecuteAsync(new ProblemsPageFetchQuery(new PagingOptions(pageIndex, pageSize)), cancellationToken);
         return result.Match(e => Ok(e.ToPageResponse(i => i.ToResponse())), BadRequestWithProblemDetails);
     }
+
+    [HttpPatch("attach-contractor")]
+    public async Task<IActionResult> ProblemAttachContractor(
+        ProblemAttachContractorRequest request,
+        [FromServices] IUseCase<ProblemAttachContractorCommand> useCase,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var result = await useCase.ExecuteAsync(request.ToCommand(), cancellationToken);
+        return result.Match(Ok, BadRequestWithProblemDetails);
+    }
 }

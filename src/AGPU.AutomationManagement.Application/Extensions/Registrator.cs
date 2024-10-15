@@ -15,7 +15,7 @@ public static class Registrator
         
         services.Decorate(typeof(IUseCase<,>), typeof(ValidationUseCaseDecorator<,>));
         
-        // services.Decorate(typeof(IUseCase<>), typeof(ValidationUseCaseDecorator<>));
+        services.Decorate(typeof(IUseCase<>), typeof(ValidationUseCaseDecorator<>));
         
         services.AddSingleton(TimeProvider.System);
 

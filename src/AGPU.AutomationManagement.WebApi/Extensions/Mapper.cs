@@ -1,6 +1,7 @@
 ﻿using AGPU.AutomationManagement.Application.Common;
 using AGPU.AutomationManagement.Application.Problem;
 using AGPU.AutomationManagement.Application.Problem.Commands;
+using AGPU.AutomationManagement.Application.User;
 using AGPU.AutomationManagement.Application.User.Commands;
 using AGPU.AutomationManagement.WebApi.Requests;
 using AGPU.AutomationManagement.WebApi.Responses;
@@ -67,5 +68,13 @@ public static class Mapper
             HasNextPage = dto.HasNextPage,
             HasPreviousPage = dto.HasPreviousPage,
         };
+    }
+
+    public static ProblemAttachContractorCommand ToCommand(this ProblemAttachContractorRequest request)
+    {
+        return new ProblemAttachContractorCommand(
+            request.ProblemId,
+            request.ContractorId
+        );
     }
 }

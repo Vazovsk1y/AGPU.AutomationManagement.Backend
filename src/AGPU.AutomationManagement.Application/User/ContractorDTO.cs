@@ -1,4 +1,4 @@
-﻿namespace AGPU.AutomationManagement.Application.Problem;
+﻿namespace AGPU.AutomationManagement.Application.User;
 
 public record ContractorDTO(
     Guid Id,
