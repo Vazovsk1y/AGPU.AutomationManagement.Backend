@@ -1,4 +1,5 @@
 ﻿using AGPU.AutomationManagement.Application.Common;
+using AGPU.AutomationManagement.Application.Extensions;
 using AGPU.AutomationManagement.Application.Problem.Commands;
 using AGPU.AutomationManagement.DAL.PostgreSQL;
 using AGPU.AutomationManagement.Domain.Enums;
@@ -18,21 +19,23 @@ internal sealed class ProblemAttachContractorUseCase(
         var target = await writeDbContext
             .Problems
             .FirstOrDefaultAsync(e => e.Id == parameter.ProblemId, cancellationToken);
-
-        if (target is null)
-        {
-            return Result.Failure(($"{nameof(ProblemAttachContractorUseCase)}.ProblemNotFound", "Проблема не найдена в базе данных."));
-        }
         
-        if (target.Status == ProblemStatus.Completed)
-        {
-            return Result.Failure(($"{nameof(ProblemAttachContractorUseCase)}.ProblemAlreadyCompleted", "Проблема уже решена."));
-        }
+        var result = await Result
+            .SuccessIf(target is not null, 
+                ($"{nameof(ProblemAttachContractorUseCase)}.ProblemNotFound", "Проблема не найдена в базе данных."))
+            .OnSuccess(() => Result.FailureIf(target!.Status == ProblemStatus.Completed,
+                ($"{nameof(ProblemAttachContractorUseCase)}.ProblemAlreadyCompleted", "Проблема уже решена.")))
+            .MatchAsync(
+                async () =>
+                {
+                    target!.ContractorId = parameter.ContractorId;
+                    target.Status = ProblemStatus.InProgress;
 
-        target.ContractorId = parameter.ContractorId;
-        target.Status = ProblemStatus.InProgress;
+                    await writeDbContext.SaveChangesAsync(cancellationToken);
+                    return Result.Success();
+                },
+                Result.Failure);
 
-        await writeDbContext.SaveChangesAsync(cancellationToken);
-        return Result.Success();
+        return result;
     }
 }

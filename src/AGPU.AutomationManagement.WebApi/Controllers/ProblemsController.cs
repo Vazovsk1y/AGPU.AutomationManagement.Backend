@@ -49,15 +49,29 @@ public class ProblemsController : BaseController
         return result.Match(e => Ok(e.ToPageResponse(i => i.ToResponse())), BadRequestWithProblemDetails);
     }
 
-    [HttpPatch("attach-contractor")]
+    [HttpPatch("{id}/attach-contractor")]
     public async Task<IActionResult> ProblemAttachContractor(
+        [FromRoute] Guid id,
         ProblemAttachContractorRequest request,
         [FromServices] IUseCase<ProblemAttachContractorCommand> useCase,
         CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var result = await useCase.ExecuteAsync(request.ToCommand(), cancellationToken);
+        var result = await useCase.ExecuteAsync(request.ToCommand(id), cancellationToken);
+        return result.Match(Ok, BadRequestWithProblemDetails);
+    }
+
+    [HttpPatch("{id}/mark-completed")]
+    public async Task<IActionResult> ProblemMarkCompleted(
+        [FromRoute] Guid id,
+        ProblemMarkCompletedRequest request,
+        [FromServices] IUseCase<ProblemMarkCompletedCommand> useCase,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var result = await useCase.ExecuteAsync(request.ToCommand(id), cancellationToken);
         return result.Match(Ok, BadRequestWithProblemDetails);
     }
 }

@@ -45,6 +45,21 @@ public class Result
     public static Result Failure(IEnumerable<Error> errors) => new(false, errors);
 
     public static Result<T> Failure<T>(IEnumerable<Error> errors) => new(default, false, errors);
+
+    public static Result FailureIf(bool condition, params Error[] errors)
+    {
+        return condition ? Failure(errors) : Success();
+    }
+
+    public static Result SuccessIf(bool condition, params Error[] errors)
+    {
+        return condition ? Success() : Failure(errors);
+    }
+    
+    public static Result Combine(params Result[] results)
+    {
+        return results.Any(e => e.IsFailure) ? Failure(results.Where(e => e.IsFailure).SelectMany(e => e.Errors)) : Success();
+    }
 }
 
 public class Result<TValue> : Result

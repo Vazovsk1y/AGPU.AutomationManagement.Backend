@@ -1,4 +1,5 @@
-﻿using AGPU.AutomationManagement.Application.Common;
+﻿using System.Globalization;
+using AGPU.AutomationManagement.Application.Common;
 using AGPU.AutomationManagement.Application.Problem;
 using AGPU.AutomationManagement.Application.Problem.Commands;
 using AGPU.AutomationManagement.Application.User;
@@ -70,11 +71,22 @@ public static class Mapper
         };
     }
 
-    public static ProblemAttachContractorCommand ToCommand(this ProblemAttachContractorRequest request)
+    public static ProblemAttachContractorCommand ToCommand(this ProblemAttachContractorRequest request, Guid problemId)
     {
         return new ProblemAttachContractorCommand(
-            request.ProblemId,
+            problemId,
             request.ContractorId
+        );
+    }
+
+    public static ProblemMarkCompletedCommand ToCommand(this ProblemMarkCompletedRequest request, Guid problemId)
+    {
+        return new ProblemMarkCompletedCommand(
+            problemId,
+            new DateTimeOffset(
+                DateOnly.Parse(request.ExecutionDate, CultureInfo.InvariantCulture), 
+                TimeOnly.Parse(request.ExecutionTime, CultureInfo.InvariantCulture), 
+                TimeSpan.Zero)
         );
     }
 }
