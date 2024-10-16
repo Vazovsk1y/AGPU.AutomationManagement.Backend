@@ -20,26 +20,21 @@ internal sealed class ProblemMarkCompletedUseCase(
             .Problems
             .FirstOrDefaultAsync(e => e.Id == parameter.ProblemId, cancellationToken);
         
-        var result = await Result
-            .SuccessIf(target is not null,
-                ($"{nameof(ProblemMarkCompletedUseCase)}.ProblemNotFound", "Проблема не найдена в базе данных."))
-            .OnSuccess(() => Result.FailureIf(target!.Status == ProblemStatus.Completed, 
-                ($"{nameof(ProblemMarkCompletedUseCase)}.ProblemAlreadyCompleted", "Проблема уже решена.")))
-            .OnSuccess(() => Result.FailureIf(target!.Status == ProblemStatus.Pending || target.Status != ProblemStatus.InProgress || target.ContractorId is null, 
-                ($"{nameof(ProblemMarkCompletedUseCase)}.ProblemNotInProgress", "Необходимо прикрепить исполнителя.")))
-            .OnSuccess(() => Result.FailureIf(target!.ExecutionDateTime < target.CreatedAt, 
-                ($"{nameof(ProblemMarkCompletedUseCase)}.InvalidExecutionDateTime", "Отсутствует возможность устанавливать дату и время выполнения задним числом.")))
+        var result = await target
+            .EnsureNotNull("Запись не найдена в базе данных.")
+            .Ensure(pr => pr.Status == ProblemStatus.InProgress, "Невозможно выполнить данное действие.")
+            .Ensure(pr => parameter.ExecutionDateTime > pr.CreatedAt, "Дата и время выполнения не могут быть раньше даты и времени создания проблемы.")
             .MatchAsync(
-                async () =>
+                async pr =>
                 {
-                    target!.Status = ProblemStatus.Completed;
-                    target.ExecutionDateTime = parameter.ExecutionDateTime;
+                    pr.Status = ProblemStatus.Completed;
+                    pr.ExecutionDateTime = parameter.ExecutionDateTime;
 
                     await writeDbContext.SaveChangesAsync(cancellationToken);
                     return Result.Success();
                 },
                 Result.Failure);
-
+        
         return result;
     }
 }

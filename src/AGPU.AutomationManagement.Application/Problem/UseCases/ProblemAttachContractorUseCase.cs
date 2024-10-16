@@ -19,23 +19,22 @@ internal sealed class ProblemAttachContractorUseCase(
         var target = await writeDbContext
             .Problems
             .FirstOrDefaultAsync(e => e.Id == parameter.ProblemId, cancellationToken);
-        
-        var result = await Result
-            .SuccessIf(target is not null, 
-                ($"{nameof(ProblemAttachContractorUseCase)}.ProblemNotFound", "Проблема не найдена в базе данных."))
-            .OnSuccess(() => Result.FailureIf(target!.Status == ProblemStatus.Completed,
-                ($"{nameof(ProblemAttachContractorUseCase)}.ProblemAlreadyCompleted", "Проблема уже решена.")))
-            .MatchAsync(
-                async () =>
-                {
-                    target!.ContractorId = parameter.ContractorId;
-                    target.Status = ProblemStatus.InProgress;
 
+        var result = await target
+            .EnsureNotNull("Запись не найдена в базе данных.")
+            .Ensure(problem => problem.Status != ProblemStatus.Completed, "Проблема уже решена.")
+            .MatchAsync(
+                async problem =>
+                {
+                    problem.ContractorId = parameter.ContractorId;
+                    problem.Status = ProblemStatus.InProgress;
+                    
                     await writeDbContext.SaveChangesAsync(cancellationToken);
                     return Result.Success();
                 },
-                Result.Failure);
-
+                Result.Failure
+            );
+        
         return result;
     }
 }

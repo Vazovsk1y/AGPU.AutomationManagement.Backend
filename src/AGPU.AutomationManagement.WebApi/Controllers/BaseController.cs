@@ -11,13 +11,9 @@ public abstract class BaseController : ControllerBase
 {
     protected IActionResult BadRequestWithProblemDetails(IEnumerable<Error> errors)
     {
-        var responseErrors = errors
-            .GroupBy(e => e.Code)
-            .ToDictionary(e => e.Key, e => e.Select(t => t.Message).ToArray());
-
         var result = new ValidationProblemDetails
         {
-            Errors = responseErrors,
+            Errors = new Dictionary<string, string[]> { { nameof(Error), errors.Select(e => e.Message).ToArray() } },
             Status = 400,
             Title = "Bad request.",
             Type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.1",
