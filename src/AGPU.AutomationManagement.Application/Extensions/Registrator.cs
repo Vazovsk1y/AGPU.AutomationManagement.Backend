@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Text;
 using AGPU.AutomationManagement.Application.Auth.Services;
 using AGPU.AutomationManagement.Application.Common;
-using AGPU.AutomationManagement.Application.Infrastructure;
+using AGPU.AutomationManagement.Application.Infrastructure.Settings;
 using AGPU.AutomationManagement.DAL.PostgreSQL;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -31,15 +31,18 @@ public static class Registrator
         services
             .AddIdentityCore<Domain.Entities.User>(e =>
             {
-                e.User = new UserOptions { RequireUniqueEmail = true };
+                e.User = authSettings.User;
+                e.Lockout = authSettings.Lockout;
+                e.Password = authSettings.Password;
                 e.ClaimsIdentity = authSettings.ClaimsIdentity;
+                e.SignIn = authSettings.SignIn;
             })
-            .AddClaimsPrincipalFactory<AuthUserClaimsPrincipalFactory>()
-            .AddTokenProvider<AccessTokenProvider>(AccessTokenProvider.Name)
-            .AddTokenProvider<RefreshTokenProvider>(RefreshTokenProvider.Name)
             .AddRoles<Domain.Entities.Role>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddSignInManager<SignInManager<Domain.Entities.User>>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddClaimsPrincipalFactory<AuthUserClaimsPrincipalFactory>()
+            .AddTokenProvider<RefreshTokenProvider>(RefreshTokenProvider.LoginProvider)
+            .AddTokenProvider<AccessTokenProvider>(AccessTokenProvider.LoginProvider)
             .AddDefaultTokenProviders();
 
         services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();

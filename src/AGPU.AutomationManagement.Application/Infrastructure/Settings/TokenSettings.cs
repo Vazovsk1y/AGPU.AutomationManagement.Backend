@@ -1,4 +1,4 @@
-﻿namespace AGPU.AutomationManagement.Application.Infrastructure;
+﻿namespace AGPU.AutomationManagement.Application.Infrastructure.Settings;
 
 public record TokenSettings
 {

@@ -13,27 +13,14 @@ internal sealed class RefreshTokenProvider(
     public const string Name = "REFRESH_TOKEN";
     public const string LoginProvider = "AGPU.AUTOMATION_MANAGEMENT";
 
-    public Task<bool> CanGenerateTwoFactorTokenAsync(UserManager<Domain.Entities.User> manager, Domain.Entities.User user)
-    {
-        ArgumentNullException.ThrowIfNull(manager);
-        ArgumentNullException.ThrowIfNull(user);
-
-        return Task.FromResult(true);
-    }
+    public Task<bool> CanGenerateTwoFactorTokenAsync(UserManager<Domain.Entities.User> manager, Domain.Entities.User user) 
+        => throw new NotImplementedException();
 
     public Task<string> GenerateAsync(string purpose, UserManager<Domain.Entities.User> manager, Domain.Entities.User user)
-    {
-        ArgumentNullException.ThrowIfNull(manager);
-        ArgumentNullException.ThrowIfNull(user);
-
-        return Task.FromResult(GenerateRandomString());
-    }
+        => Task.FromResult(GenerateRandomString());
 
     public async Task<bool> ValidateAsync(string purpose, string token, UserManager<Domain.Entities.User> manager, Domain.Entities.User user)
     {
-        ArgumentNullException.ThrowIfNull(manager);
-        ArgumentNullException.ThrowIfNull(user);
-
         if (purpose != Name)
         {
             throw new InvalidOperationException("Invalid refresh token purpose.");

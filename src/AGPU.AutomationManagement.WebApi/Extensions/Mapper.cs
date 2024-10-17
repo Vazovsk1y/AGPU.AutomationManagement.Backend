@@ -1,4 +1,6 @@
 ﻿using System.Globalization;
+using AGPU.AutomationManagement.Application.Auth;
+using AGPU.AutomationManagement.Application.Auth.Commands;
 using AGPU.AutomationManagement.Application.Common;
 using AGPU.AutomationManagement.Application.Problem;
 using AGPU.AutomationManagement.Application.Problem.Commands;
@@ -88,5 +90,20 @@ public static class Mapper
                 TimeOnly.Parse(request.ExecutionTime, CultureInfo.InvariantCulture), 
                 TimeSpan.Zero)
         );
+    }
+
+    public static SignInCommand ToCommand(this SignInRequest request)
+    {
+        return new SignInCommand(
+            request.EmailOrUsername,
+            request.Password
+        );
+    }
+
+    public static TokensResponse ToResponse(this TokensDTO dto)
+    {
+        return new TokensResponse(
+            dto.AccessToken, 
+            dto.RefreshToken);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using AGPU.AutomationManagement.Application.Infrastructure;
+using AGPU.AutomationManagement.Application.Infrastructure.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;

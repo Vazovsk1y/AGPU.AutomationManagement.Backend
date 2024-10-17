@@ -2,12 +2,11 @@
 using AGPU.AutomationManagement.Application.Auth.Services;
 using AGPU.AutomationManagement.Application.Common;
 using AGPU.AutomationManagement.Application.Extensions;
-using AGPU.AutomationManagement.Application.Infrastructure;
+using AGPU.AutomationManagement.Application.Infrastructure.Settings;
 using AGPU.AutomationManagement.DAL.PostgreSQL;
 using AGPU.AutomationManagement.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace AGPU.AutomationManagement.Application.Auth.UseCases;
 

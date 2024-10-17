@@ -1,10 +1,9 @@
 ﻿using System.Security.Claims;
 using System.Text;
-using AGPU.AutomationManagement.Application.Infrastructure;
+using AGPU.AutomationManagement.Application.Infrastructure.Settings;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
@@ -21,31 +20,20 @@ internal sealed class AccessTokenProvider(
 
     private readonly TokenSettings _tokenSettings = authSettings.Tokens;
 
-    public Task<bool> CanGenerateTwoFactorTokenAsync(UserManager<Domain.Entities.User> manager, Domain.Entities.User user)
-    {
-        ArgumentNullException.ThrowIfNull(manager);
-        ArgumentNullException.ThrowIfNull(user);
-
-        return Task.FromResult(true);
-    }
+    public Task<bool> CanGenerateTwoFactorTokenAsync(UserManager<Domain.Entities.User> manager, Domain.Entities.User user) 
+        => throw new NotImplementedException();
 
     public async Task<string> GenerateAsync(string purpose, UserManager<Domain.Entities.User> manager, Domain.Entities.User user)
     {
-        ArgumentNullException.ThrowIfNull(manager);
-        ArgumentNullException.ThrowIfNull(user);
-
         using var scope = serviceScopeFactory.CreateScope();
-        var userClaimsPrincipalFactory = scope.ServiceProvider.GetRequiredService<IUserClaimsPrincipalFactory<Domain.Entities.User>>();
+        var claimsPrincipalFactory = scope.ServiceProvider.GetRequiredService<IUserClaimsPrincipalFactory<Domain.Entities.User>>();
 
-        var claimsPrincipal = await userClaimsPrincipalFactory.CreateAsync(user);
+        var claimsPrincipal = await claimsPrincipalFactory.CreateAsync(user);
         return GenerateJwtAccessToken(claimsPrincipal.Claims);
     }
 
     public async Task<bool> ValidateAsync(string purpose, string token, UserManager<Domain.Entities.User> manager, Domain.Entities.User user)
     {
-        ArgumentNullException.ThrowIfNull(manager);
-        ArgumentNullException.ThrowIfNull(user);
-
         if (purpose != Name)
         {
             throw new InvalidOperationException("Invalid access token purpose.");
@@ -72,18 +60,26 @@ internal sealed class AccessTokenProvider(
         var timeProvider = scope.ServiceProvider.GetRequiredService<TimeProvider>();
 
         var currentDateTime = timeProvider.GetUtcNow().UtcDateTime;
-        var expiryDateTime = currentDateTime.Add(_tokenSettings.Access.TokenLifetime);
+        var expires = currentDateTime.Add(_tokenSettings.Access.TokenLifetime);
         var signingCredentials = new SigningCredentials(
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenSettings.Access.SecretKey)),
             SecurityAlgorithms.HmacSha256
             );
+        
+        var claimsDictionary = claims
+            .GroupBy(c => c.Type)
+            .ToDictionary(
+                g => g.Key,
+                g => g.Count() > 1 
+                    ? g.Select(c => c.Value).ToArray()
+                    : (object)g.First().Value);
 
         var descriptor = new SecurityTokenDescriptor
         {
             Issuer = _tokenSettings.Access.Issuer,
             Audience = _tokenSettings.Access.Audience,
-            Claims = claims.ToDictionary(e => e.Type, object (e) => e.Value),
-            Expires = expiryDateTime,
+            Claims = claimsDictionary,
+            Expires = expires,
             SigningCredentials = signingCredentials,
             NotBefore = currentDateTime,
             IssuedAt = currentDateTime,
