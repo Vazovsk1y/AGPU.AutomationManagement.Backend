@@ -4,7 +4,7 @@ public record Result
 {
     public bool IsSuccess { get; }
 
-    protected bool IsFailure => !IsSuccess;
+    public bool IsFailure => !IsSuccess;
 
     public IReadOnlyCollection<Error> Errors { get; }
 
@@ -39,6 +39,8 @@ public record Result
     public static Result Failure(IEnumerable<Error> errors) => new(false, errors);
 
     public static Result<T> Failure<T>(IEnumerable<Error> errors) => new(default, false, errors);
+    
+    public static Result<T> Failure<T>(Error error) => new(default, false, error);
 }
 
 public record Result<TValue> : Result

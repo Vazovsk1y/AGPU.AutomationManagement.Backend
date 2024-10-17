@@ -10,7 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
-builder.Services.AddApplication();
+builder.Services.AddApplication(builder.GetAuthSettings());
 builder.Services.AddDataAccessLayer(builder.GetDatabaseSettings());
 
 var app = builder.Build();

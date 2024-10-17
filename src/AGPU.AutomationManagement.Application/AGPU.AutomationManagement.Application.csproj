@@ -13,6 +13,7 @@
     <ItemGroup>
       <PackageReference Include="FluentValidation" Version="11.10.0" />
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.10.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.10" />
       <PackageReference Include="Scrutor" Version="5.0.1" />
     </ItemGroup>
 

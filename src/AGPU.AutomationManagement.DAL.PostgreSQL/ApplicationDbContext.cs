@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace AGPU.AutomationManagement.DAL.PostgreSQL;
 
 public sealed class ApplicationDbContext(DbContextOptions options) : 
-    IdentityDbContext<User, Role, Guid, IdentityUserClaim<Guid>, UserRole, IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>(options), 
+    IdentityDbContext<User, Role, Guid, IdentityUserClaim<Guid>, UserRole, IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, UserToken>(options), 
     IWriteDbContext
 {
     public DbSet<Problem> Problems { get; init; }

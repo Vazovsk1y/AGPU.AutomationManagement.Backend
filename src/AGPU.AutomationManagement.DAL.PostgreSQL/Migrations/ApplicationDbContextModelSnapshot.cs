@@ -96,29 +96,29 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("58f0f42b-fb6f-4e0f-a6e7-be75ffbcab76"),
-                            ConcurrencyStamp = "c400be7e-eefa-4f7f-a31b-768f0c78cba2",
+                            Id = new Guid("02627255-5d87-4006-957d-e27bcac894f3"),
+                            ConcurrencyStamp = "fc993a3b-506e-4d2e-a6e2-05f6d18012e1",
                             Name = "Администратор",
                             NormalizedName = "АДМИНИСТРАТОР"
                         },
                         new
                         {
-                            Id = new Guid("2dfa051f-4106-41c8-b7de-18b4e4fd8ecb"),
-                            ConcurrencyStamp = "78e917d6-eb5d-4c49-a722-2e6dde1aa59e",
+                            Id = new Guid("87e462fc-d6c0-4d8f-9af0-c29a5bd9689a"),
+                            ConcurrencyStamp = "fc693a3b-506e-4d2e-a3e2-05f6d19012e1",
                             Name = "Заместитель администратора",
                             NormalizedName = "ЗАМЕСТИТЕЛЬ АДМИНИСТРАТОРА"
                         },
                         new
                         {
-                            Id = new Guid("a9145197-6932-4367-a167-0f00dd71de07"),
-                            ConcurrencyStamp = "35aa2877-0ece-444c-a1e2-601e349fae0a",
+                            Id = new Guid("f26c547c-bdd6-40e2-a312-bc2f9df64ea3"),
+                            ConcurrencyStamp = "fb693a3b-506e-4d8e-a5e2-05f6d19012e1",
                             Name = "Инженер",
                             NormalizedName = "ИНЖЕНЕР"
                         },
                         new
                         {
-                            Id = new Guid("30227619-8c40-4fb0-a20f-6a151b280b2b"),
-                            ConcurrencyStamp = "c3678fc0-69aa-430d-8c1d-985c230fd75d",
+                            Id = new Guid("fc993a3b-506e-4d2e-b6e2-05f6d18012e1"),
+                            ConcurrencyStamp = "fc693a3b-506a-4d2e-a3e2-05f4b19012e1",
                             Name = "Пользователь",
                             NormalizedName = "ПОЛЬЗОВАТЕЛЬ"
                         });
@@ -198,6 +198,26 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("3c04bbfc-9f26-444d-8028-9303e2e5f2e8"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "3c04bbfd-9f26-444d-8028-9303e2e5f2e8",
+                            Email = "test@gmail.com",
+                            EmailConfirmed = false,
+                            FullName = "Самый Первый Админинистратор",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "TEST@GMAIL.COM",
+                            NormalizedUserName = "SUPERADMIN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEELcrWGDOKNQF003pCMlKD3hcWsSevf3Zo+tpsy2MAYlOo4Y0K1mykhiKPMgfDz5Tw==",
+                            PhoneNumberConfirmed = false,
+                            Post = "Самый первый админ",
+                            SecurityStamp = "3c04bbfc-9f26-444d-8028-9303e2e5f2e6",
+                            TwoFactorEnabled = false,
+                            UserName = "SuperAdmin"
+                        });
                 });
 
             modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.UserRole", b =>
@@ -213,6 +233,50 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("3c04bbfc-9f26-444d-8028-9303e2e5f2e8"),
+                            RoleId = new Guid("fc993a3b-506e-4d2e-b6e2-05f6d18012e1")
+                        },
+                        new
+                        {
+                            UserId = new Guid("3c04bbfc-9f26-444d-8028-9303e2e5f2e8"),
+                            RoleId = new Guid("02627255-5d87-4006-957d-e27bcac894f3")
+                        },
+                        new
+                        {
+                            UserId = new Guid("3c04bbfc-9f26-444d-8028-9303e2e5f2e8"),
+                            RoleId = new Guid("87e462fc-d6c0-4d8f-9af0-c29a5bd9689a")
+                        },
+                        new
+                        {
+                            UserId = new Guid("3c04bbfc-9f26-444d-8028-9303e2e5f2e8"),
+                            RoleId = new Guid("f26c547c-bdd6-40e2-a312-bc2f9df64ea3")
+                        });
+                });
+
+            modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.UserToken", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("Expires")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("text");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -284,25 +348,6 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("text");
-
-                    b.HasKey("UserId", "LoginProvider", "Name");
-
-                    b.ToTable("AspNetUserTokens", (string)null);
-                });
-
             modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.Problem", b =>
                 {
                     b.HasOne("AGPU.AutomationManagement.Domain.Entities.User", "Contractor")
@@ -339,6 +384,15 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.UserToken", b =>
+                {
+                    b.HasOne("AGPU.AutomationManagement.Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("AGPU.AutomationManagement.Domain.Entities.Role", null)
@@ -358,15 +412,6 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
-                {
-                    b.HasOne("AGPU.AutomationManagement.Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.HasOne("AGPU.AutomationManagement.Domain.Entities.User", null)
                         .WithMany()

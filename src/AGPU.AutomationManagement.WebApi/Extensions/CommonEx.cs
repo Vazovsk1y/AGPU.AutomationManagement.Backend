@@ -1,4 +1,5 @@
-﻿using AGPU.AutomationManagement.DAL.PostgreSQL;
+﻿using AGPU.AutomationManagement.Application.Infrastructure;
+using AGPU.AutomationManagement.DAL.PostgreSQL;
 using AGPU.AutomationManagement.DAL.PostgreSQL.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,6 +26,19 @@ public static class CommonEx
             {
                 ConnectionString = connectionString,
             };
+        }
+
+        throw new InvalidOperationException();
+    }
+    
+    public static AuthSettings GetAuthSettings(this WebApplicationBuilder builder)
+    {
+        if (builder.Environment.IsDevelopment())
+        {
+            var authSettings = builder.Configuration.GetRequiredSection("Auth").Get<AuthSettings>();
+            ArgumentNullException.ThrowIfNull(authSettings);
+            
+            return authSettings;
         }
 
         throw new InvalidOperationException();

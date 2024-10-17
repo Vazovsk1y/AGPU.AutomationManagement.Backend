@@ -148,6 +148,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     LoginProvider = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
+                    Expires = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     Value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -196,10 +197,26 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("2dfa051f-4106-41c8-b7de-18b4e4fd8ecb"), "78e917d6-eb5d-4c49-a722-2e6dde1aa59e", "Заместитель администратора", "ЗАМЕСТИТЕЛЬ АДМИНИСТРАТОРА" },
-                    { new Guid("30227619-8c40-4fb0-a20f-6a151b280b2b"), "c3678fc0-69aa-430d-8c1d-985c230fd75d", "Пользователь", "ПОЛЬЗОВАТЕЛЬ" },
-                    { new Guid("58f0f42b-fb6f-4e0f-a6e7-be75ffbcab76"), "c400be7e-eefa-4f7f-a31b-768f0c78cba2", "Администратор", "АДМИНИСТРАТОР" },
-                    { new Guid("a9145197-6932-4367-a167-0f00dd71de07"), "35aa2877-0ece-444c-a1e2-601e349fae0a", "Инженер", "ИНЖЕНЕР" }
+                    { new Guid("02627255-5d87-4006-957d-e27bcac894f3"), "fc993a3b-506e-4d2e-a6e2-05f6d18012e1", "Администратор", "АДМИНИСТРАТОР" },
+                    { new Guid("87e462fc-d6c0-4d8f-9af0-c29a5bd9689a"), "fc693a3b-506e-4d2e-a3e2-05f6d19012e1", "Заместитель администратора", "ЗАМЕСТИТЕЛЬ АДМИНИСТРАТОРА" },
+                    { new Guid("f26c547c-bdd6-40e2-a312-bc2f9df64ea3"), "fb693a3b-506e-4d8e-a5e2-05f6d19012e1", "Инженер", "ИНЖЕНЕР" },
+                    { new Guid("fc993a3b-506e-4d2e-b6e2-05f6d18012e1"), "fc693a3b-506a-4d2e-a3e2-05f4b19012e1", "Пользователь", "ПОЛЬЗОВАТЕЛЬ" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FullName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Post", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { new Guid("3c04bbfc-9f26-444d-8028-9303e2e5f2e8"), 0, "3c04bbfd-9f26-444d-8028-9303e2e5f2e8", "test@gmail.com", false, "Самый Первый Админинистратор", false, null, "TEST@GMAIL.COM", "SUPERADMIN", "AQAAAAIAAYagAAAAEELcrWGDOKNQF003pCMlKD3hcWsSevf3Zo+tpsy2MAYlOo4Y0K1mykhiKPMgfDz5Tw==", null, false, "Самый первый админ", "3c04bbfc-9f26-444d-8028-9303e2e5f2e6", false, "SuperAdmin" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[,]
+                {
+                    { new Guid("02627255-5d87-4006-957d-e27bcac894f3"), new Guid("3c04bbfc-9f26-444d-8028-9303e2e5f2e8") },
+                    { new Guid("87e462fc-d6c0-4d8f-9af0-c29a5bd9689a"), new Guid("3c04bbfc-9f26-444d-8028-9303e2e5f2e8") },
+                    { new Guid("f26c547c-bdd6-40e2-a312-bc2f9df64ea3"), new Guid("3c04bbfc-9f26-444d-8028-9303e2e5f2e8") },
+                    { new Guid("fc993a3b-506e-4d2e-b6e2-05f6d18012e1"), new Guid("3c04bbfc-9f26-444d-8028-9303e2e5f2e8") }
                 });
 
             migrationBuilder.CreateIndex(

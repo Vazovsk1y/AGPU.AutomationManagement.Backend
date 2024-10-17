@@ -6,7 +6,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL;
 
 public interface IReadDbContext
 {
-    DbSet<IdentityUserToken<Guid>> UserTokens { get; }
+    DbSet<UserToken> UserTokens { get; }
     
     DbSet<IdentityRoleClaim<Guid>> RoleClaims { get; }
     
