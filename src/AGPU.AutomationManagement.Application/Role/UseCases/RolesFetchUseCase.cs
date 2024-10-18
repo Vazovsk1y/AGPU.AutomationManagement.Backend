@@ -11,8 +11,6 @@ internal sealed class RolesFetchUseCase(IReadDbContext readDbContext) : IUseCase
     {
         cancellationToken.ThrowIfCancellationRequested();
         
-        // TODO: Авторизация.
-        
         var result = await readDbContext
             .Roles
             .Select(e => new RoleDTO(e.Id, e.Name!))

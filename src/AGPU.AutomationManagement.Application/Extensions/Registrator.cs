@@ -1,5 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
+using System.Security.Claims;
 using System.Text;
 using AGPU.AutomationManagement.Application.Auth.Services;
 using AGPU.AutomationManagement.Application.Common;
@@ -61,6 +62,27 @@ public static class Registrator
             })
             .AddJwtBearer(options =>
             {
+                options.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = ctx =>
+                    {
+                        var principal = ctx.Principal;
+                        if (principal is null)
+                        {
+                            return Task.CompletedTask;
+                        }
+                        
+                        ctx.Principal = new ClaimsPrincipal(new ClaimsIdentity(
+                            principal.Claims,
+                            principal.Identity?.AuthenticationType,
+                            authSettings.ClaimsIdentity.UserNameClaimType,
+                            authSettings.ClaimsIdentity.RoleClaimType
+                        ));
+
+                        return Task.CompletedTask;
+                    }
+                };
+                
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,

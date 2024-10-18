@@ -14,8 +14,6 @@ internal sealed class ProblemAttachContractorUseCase(
     {
         cancellationToken.ThrowIfCancellationRequested();
         
-        // TODO: Авторизация.
-
         var target = await writeDbContext
             .Problems
             .FirstOrDefaultAsync(e => e.Id == parameter.ProblemId, cancellationToken);

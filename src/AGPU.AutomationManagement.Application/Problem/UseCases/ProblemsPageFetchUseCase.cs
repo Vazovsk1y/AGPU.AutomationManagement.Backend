@@ -13,8 +13,6 @@ internal sealed class ProblemsPageFetchUseCase(
     {
         cancellationToken.ThrowIfCancellationRequested();
         
-        // TODO: Авторизация.
-        
         // TODO: Разные данные и сортировка в зависимости от роли текущего пользователя.
 
         var totalItemsCount = await readDbContext.Problems.CountAsync(cancellationToken);

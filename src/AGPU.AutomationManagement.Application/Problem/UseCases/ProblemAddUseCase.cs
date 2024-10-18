@@ -14,8 +14,6 @@ internal sealed class ProblemAddUseCase(
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        // TODO: Авторизация.
-        
         var currentUser = await currentUserProvider.GetCurrentUserAsync();
         ArgumentNullException.ThrowIfNull(currentUser);
 

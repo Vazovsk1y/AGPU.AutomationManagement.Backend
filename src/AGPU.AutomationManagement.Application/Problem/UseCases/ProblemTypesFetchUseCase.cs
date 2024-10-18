@@ -10,8 +10,6 @@ internal sealed class ProblemTypesFetchUseCase : IUseCase<IReadOnlyCollection<Pr
     {
         cancellationToken.ThrowIfCancellationRequested();
         
-        // TODO: Авторизация.
-
         return Task.FromResult(Result.Success<IReadOnlyCollection<ProblemType>>(Enum
             .GetValues<ProblemType>()
             .ToList()));

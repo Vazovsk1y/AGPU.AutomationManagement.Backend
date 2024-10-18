@@ -16,8 +16,6 @@ internal sealed class ContractorsFetchUseCase(
     {
         cancellationToken.ThrowIfCancellationRequested();
         
-        // TODO: Авторизация.
-
         var engineerRole = await roleManager.FindByNameAsync(Roles.Engineer);
         ArgumentNullException.ThrowIfNull(engineerRole);
 

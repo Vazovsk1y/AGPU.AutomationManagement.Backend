@@ -11,6 +11,7 @@ public static class Registrator
         services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));;
         services.AddEndpointsApiExplorer();
         services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+        services.AddHttpContextAccessor();
 
         services.AddSwagger();
         return services;

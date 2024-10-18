@@ -16,8 +16,6 @@ internal sealed class UserRegisterUseCase(
     {
         cancellationToken.ThrowIfCancellationRequested();
         
-        // TODO: Авторизация.
-        
         await using var transaction = await writeDbContext.Database.BeginTransactionAsync(cancellationToken);
         var user = new Domain.Entities.User
         {
@@ -36,10 +34,7 @@ internal sealed class UserRegisterUseCase(
             }
             
             var targetRole = await writeDbContext.Roles.FirstAsync(e => e.Id == parameter.RoleId, cancellationToken);
-
-            var addingToRoleResult = targetRole.Name!.Equals(Roles.User, StringComparison.InvariantCultureIgnoreCase)
-                ? await userManager.AddToRoleAsync(user, Roles.User)
-                : await userManager.AddToRolesAsync(user, [Roles.User, targetRole.Name]);
+            var addingToRoleResult = await userManager.AddToRoleAsync(user, targetRole.Name!);
 
             if (!addingToRoleResult.Succeeded)
             {
