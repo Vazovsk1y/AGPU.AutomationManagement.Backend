@@ -1,4 +1,5 @@
-﻿using AGPU.AutomationManagement.Application.Common;
+﻿using AGPU.AutomationManagement.Application;
+using AGPU.AutomationManagement.Application.Common;
 using AGPU.AutomationManagement.Application.Extensions;
 using AGPU.AutomationManagement.Application.User;
 using AGPU.AutomationManagement.Application.User.Commands;
@@ -7,15 +8,17 @@ using AGPU.AutomationManagement.Domain.Constants;
 using AGPU.AutomationManagement.WebApi.Extensions;
 using AGPU.AutomationManagement.WebApi.Infrastructure;
 using AGPU.AutomationManagement.WebApi.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AGPU.AutomationManagement.WebApi.Controllers;
 
-[ValidateSecurityStamp]
-[ValidateEmailConfirmation]
+
 public class UsersController : BaseController
 {
     [HttpPost]
+    [ValidateSecurityStamp]
+    [ValidateEmailConfirmation]
     [PermittedTo(Roles.Administrator, Roles.DeputyAdministrator)]
     public async Task<IActionResult> RegisterUser(
         UserRegisterRequest request,
@@ -29,6 +32,8 @@ public class UsersController : BaseController
     }
 
     [HttpGet("contractors")]
+    [ValidateSecurityStamp]
+    [ValidateEmailConfirmation]
     [PermittedTo(Roles.Administrator, Roles.DeputyAdministrator)]
     public async Task<IActionResult> ContractorsFetch(
         [FromServices] IUseCase<IReadOnlyCollection<ContractorDTO>, ContractorsFetchQuery> useCase,
@@ -40,5 +45,15 @@ public class UsersController : BaseController
         return result.Match(
             e => Ok(e.Select(i => i.ToResponse())), 
             BadRequestWithProblemDetails);
+    }
+
+    [HttpGet("me")]
+    [Authorize]
+    public async Task<IActionResult> Me([FromServices] ICurrentUserProvider currentUserProvider, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var currentUser = await currentUserProvider.GetCurrentUserAsync();
+        return currentUser is null ? Unauthorized() : Ok(currentUser.ToCurrentUserResponse());
     }
 }

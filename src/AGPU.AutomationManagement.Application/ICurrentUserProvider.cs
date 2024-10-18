@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace AGPU.AutomationManagement.Application;
 
-internal interface ICurrentUserProvider
+public interface ICurrentUserProvider
 {
     Task<Domain.Entities.User?> GetCurrentUserAsync();
 }

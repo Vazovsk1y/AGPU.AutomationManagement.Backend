@@ -6,6 +6,7 @@ using AGPU.AutomationManagement.Application.Problem;
 using AGPU.AutomationManagement.Application.Problem.Commands;
 using AGPU.AutomationManagement.Application.User;
 using AGPU.AutomationManagement.Application.User.Commands;
+using AGPU.AutomationManagement.Domain.Entities;
 using AGPU.AutomationManagement.WebApi.Requests;
 using AGPU.AutomationManagement.WebApi.Responses;
 
@@ -105,5 +106,19 @@ public static class Mapper
         return new TokensResponse(
             dto.AccessToken, 
             dto.RefreshToken);
+    }
+
+    public static CurrentUserResponse ToCurrentUserResponse(this User user)
+    {
+        return new CurrentUserResponse(
+            user.Id,
+            user.UserName,
+            user.FullName,
+            user.Post,
+            user.Email,
+            user.EmailConfirmed,
+            user.PhoneNumber,
+            user.PhoneNumberConfirmed
+        );
     }
 }
