@@ -1,4 +1,5 @@
 ﻿using AGPU.AutomationManagement.Application.User.Commands;
+using AGPU.AutomationManagement.Domain.Constants.Constraints;
 using FluentValidation;
 
 namespace AGPU.AutomationManagement.Application.Validators;
@@ -7,22 +8,27 @@ internal class UserRegisterCommandValidator : AbstractValidator<UserRegisterComm
 {
     public UserRegisterCommandValidator()
     {
-        // TODO: Использовать ограничения.
-        
         RuleFor(e => e.Email)
             .NotEmpty()
+            .WithMessage("Необходимо заполнить адрес электронной почты.")
             .EmailAddress();
 
         RuleFor(e => e.Password)
-            .NotEmpty();
+            .NotEmpty()
+            .WithMessage("Необходимо придумать пароль.");
 
         RuleFor(e => e.Post)
-            .NotEmpty();
+            .NotEmpty()
+            .WithMessage("Необходимо указать должность.")
+            .MaximumLength(UserConstraints.PostMaxLength);
 
         RuleFor(e => e.FullName)
-            .NotEmpty();
+            .NotEmpty()
+            .WithMessage("Необходимо указать ФИО.")
+            .MaximumLength(UserConstraints.FullNameMaxLength);
 
         RuleFor(e => e.Username)
-            .NotEmpty();
+            .NotEmpty()
+            .WithMessage("Необходимо указать логин.");
     }
 }
