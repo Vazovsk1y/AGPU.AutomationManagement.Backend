@@ -2,7 +2,6 @@
 using AGPU.AutomationManagement.Application.Extensions;
 using AGPU.AutomationManagement.Application.User.Commands;
 using AGPU.AutomationManagement.DAL.PostgreSQL;
-using AGPU.AutomationManagement.Domain.Constants;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

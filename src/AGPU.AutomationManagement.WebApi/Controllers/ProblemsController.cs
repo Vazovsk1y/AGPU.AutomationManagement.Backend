@@ -5,7 +5,6 @@ using AGPU.AutomationManagement.Application.Problem;
 using AGPU.AutomationManagement.Application.Problem.Commands;
 using AGPU.AutomationManagement.Application.Problem.Queries;
 using AGPU.AutomationManagement.Domain.Constants;
-using AGPU.AutomationManagement.Domain.Enums;
 using AGPU.AutomationManagement.WebApi.Extensions;
 using AGPU.AutomationManagement.WebApi.Infrastructure;
 using AGPU.AutomationManagement.WebApi.Requests;
@@ -29,18 +28,6 @@ public class ProblemsController : BaseController
 
         var result = await useCase.ExecuteAsync(request.ToCommand(), cancellationToken);
         return result.Match(Ok, BadRequestWithProblemDetails);
-    }
-
-    [HttpGet("types")]
-    [Authorize]
-    public async Task<IActionResult> ProblemTypesFetch(
-        [FromServices] IUseCase<IReadOnlyCollection<ProblemType>, ProblemTypesFetchQuery> useCase,
-        CancellationToken cancellationToken)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-
-        var result = await useCase.ExecuteAsync(new ProblemTypesFetchQuery(), cancellationToken);
-        return result.Match(e => Ok(e.Select(i => new { Value = (int)i, Name = i.ToString() })), BadRequestWithProblemDetails);
     }
 
     [HttpGet]

@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using System.Security.Claims;
+using AGPU.AutomationManagement.Application.Infrastructure.Settings;
+using AGPU.AutomationManagement.DAL.PostgreSQL;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace AGPU.AutomationManagement.Application;
 
@@ -9,9 +12,11 @@ public interface ICurrentUserProvider
 }
 
 internal sealed class CurrentUserProvider(
-    UserManager<Domain.Entities.User> userManager,
+    AuthSettings authSettings,
+    IReadDbContext readDbContext,
     IHttpContextAccessor httpContextAccessor) : ICurrentUserProvider
 {
+    private readonly ClaimsIdentitySettings _claimsIdentitySettings = authSettings.ClaimsIdentity;
     private readonly HttpContext _currentHttpContext = httpContextAccessor.HttpContext ?? throw new InvalidOperationException();
     
     public async Task<Domain.Entities.User?> GetCurrentUserAsync()
@@ -22,6 +27,11 @@ internal sealed class CurrentUserProvider(
             return null;
         }
 
-        return await userManager.GetUserAsync(claimsPrincipal);
+        _ = Guid.TryParse(claimsPrincipal.FindFirstValue(_claimsIdentitySettings.UserIdClaimType), out var userId);
+        return await readDbContext
+            .Users
+            .Include(e => e.Roles)
+            .ThenInclude(e => e.Role)
+            .FirstOrDefaultAsync(e => e.Id == userId);
     }
 } 

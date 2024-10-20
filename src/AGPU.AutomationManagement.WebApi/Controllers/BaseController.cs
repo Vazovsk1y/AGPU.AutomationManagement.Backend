@@ -13,7 +13,7 @@ public abstract class BaseController : ControllerBase
     {
         var result = new ValidationProblemDetails
         {
-            Errors = new Dictionary<string, string[]> { { nameof(Error), errors.Select(e => e.Message).ToArray() } },
+            Errors = new Dictionary<string, string[]> { { "ApplicationError", errors.Select(e => e.Message).ToArray() } },
             Status = 400,
             Title = "Bad request.",
             Type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.1",
