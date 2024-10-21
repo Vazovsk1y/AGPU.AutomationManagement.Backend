@@ -12,6 +12,8 @@ public sealed class ApplicationDbContext(DbContextOptions options) :
     IWriteDbContext
 {
     public DbSet<Problem> Problems { get; init; }
+    
+    public DbSet<Score> Scores { get; init; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

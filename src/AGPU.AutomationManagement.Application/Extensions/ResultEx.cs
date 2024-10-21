@@ -20,6 +20,11 @@ public static class ResultEx
     {
         return result.IsSuccess ? await onSuccess.Invoke(result.Value) : onFailure.Invoke(result.Errors);
     }
+    
+    public static async Task<Result> MatchAsync<TValue>(this Result<TValue> result, Func<TValue, Task<Result>> onSuccess, Func<IEnumerable<Error>, Result> onFailure)
+    {
+        return result.IsSuccess ? await onSuccess.Invoke(result.Value) : onFailure.Invoke(result.Errors);
+    }
 
     public static Result<T> Ensure<T>(this Result<T> result, Func<T, bool> predicate, params Error[] errors)
     {
