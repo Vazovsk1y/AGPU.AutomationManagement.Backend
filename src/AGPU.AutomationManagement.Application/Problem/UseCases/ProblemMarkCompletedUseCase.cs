@@ -8,11 +8,15 @@ using Microsoft.EntityFrameworkCore;
 namespace AGPU.AutomationManagement.Application.Problem.UseCases;
 
 internal sealed class ProblemMarkCompletedUseCase(
-    IWriteDbContext writeDbContext) : IUseCase<ProblemMarkCompletedCommand>
+    IWriteDbContext writeDbContext,
+    ICurrentUserProvider currentUserProvider) : IUseCase<ProblemMarkCompletedCommand>
 {
     public async Task<Result> ExecuteAsync(ProblemMarkCompletedCommand parameter, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
+
+        var currentUser = await currentUserProvider.GetCurrentUserAsync();
+        ArgumentNullException.ThrowIfNull(currentUser);
 
         var target = await writeDbContext
             .Problems
@@ -22,6 +26,7 @@ internal sealed class ProblemMarkCompletedUseCase(
             .EnsureNotNull("Запись не найдена в базе данных.")
             .Ensure(pr => pr.Status == ProblemStatus.InProgress, "Невозможно выполнить данное действие.")
             .Ensure(pr => parameter.ExecutionDateTime > pr.CreatedAt, "Дата и время выполнения не могут быть раньше даты и времени создания проблемы.")
+            .Ensure(pr => pr.ContractorId == currentUser.Id, "У вас нет полномочий на выполнение данной операции.")
             .MatchAsync(
                 async pr =>
                 {

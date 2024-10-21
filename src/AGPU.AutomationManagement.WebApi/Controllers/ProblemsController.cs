@@ -59,7 +59,7 @@ public class ProblemsController : BaseController
     }
 
     [HttpPatch("{id}/mark-completed")]
-    [PermittedTo(Roles.Administrator, Roles.DeputyAdministrator)]
+    [PermittedTo(Roles.Engineer)]
     public async Task<IActionResult> ProblemMarkCompleted(
         [FromRoute] Guid id,
         ProblemMarkCompletedRequest request,
