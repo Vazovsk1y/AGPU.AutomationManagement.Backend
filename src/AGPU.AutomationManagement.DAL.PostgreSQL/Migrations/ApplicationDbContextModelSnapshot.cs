@@ -124,6 +124,33 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                         });
                 });
 
+            modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.Score", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<Guid>("ProblemId")
+                        .HasColumnType("uuid");
+
+                    b.Property<float>("Value")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProblemId")
+                        .IsUnique();
+
+                    b.ToTable("Score");
+                });
+
             modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -211,7 +238,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "TEST@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEELcrWGDOKNQF003pCMlKD3hcWsSevf3Zo+tpsy2MAYlOo4Y0K1mykhiKPMgfDz5Tw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIL2jCjdR+lYtKuz7V/WnbcxqNYQtT5i8E3S1x97vjM0VLu2N2gALOXRhPoFAQf/PA==",
                             PhoneNumberConfirmed = false,
                             Post = "Самый первый админ",
                             SecurityStamp = "3c04bbfc-9f26-444d-8028-9303e2e5f2e6",
@@ -365,6 +392,17 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                     b.Navigation("Creator");
                 });
 
+            modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.Score", b =>
+                {
+                    b.HasOne("AGPU.AutomationManagement.Domain.Entities.Problem", "Problem")
+                        .WithOne("Score")
+                        .HasForeignKey("AGPU.AutomationManagement.Domain.Entities.Score", "ProblemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Problem");
+                });
+
             modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.UserRole", b =>
                 {
                     b.HasOne("AGPU.AutomationManagement.Domain.Entities.Role", "Role")
@@ -418,6 +456,11 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.Problem", b =>
+                {
+                    b.Navigation("Score");
                 });
 
             modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.Role", b =>

@@ -24,4 +24,6 @@ public sealed class Problem : Entity
     public User Creator { get; init; } = null!;
 
     public User? Contractor { get; init; }
+    
+    public Score? Score { get; init; }
 }

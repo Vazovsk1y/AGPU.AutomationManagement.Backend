@@ -38,5 +38,10 @@ public sealed class ProblemConfiguration : IEntityTypeConfiguration<Problem>
             .HasOne(e => e.Creator)
             .WithMany()
             .HasForeignKey(e => e.CreatorId);
+
+        builder
+            .HasOne(e => e.Score)
+            .WithOne(e => e.Problem)
+            .HasForeignKey<Score>(e => e.ProblemId);
     }
 }
