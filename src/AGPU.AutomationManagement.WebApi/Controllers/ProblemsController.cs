@@ -5,6 +5,7 @@ using AGPU.AutomationManagement.Application.Problem;
 using AGPU.AutomationManagement.Application.Problem.Commands;
 using AGPU.AutomationManagement.Application.Problem.Queries;
 using AGPU.AutomationManagement.Domain.Constants;
+using AGPU.AutomationManagement.Domain.Enums;
 using AGPU.AutomationManagement.WebApi.Extensions;
 using AGPU.AutomationManagement.WebApi.Infrastructure;
 using AGPU.AutomationManagement.WebApi.Requests;
@@ -35,12 +36,15 @@ public class ProblemsController : BaseController
     public async Task<IActionResult> ProblemsPageFetch(
         [FromQuery] [Range(1, int.MaxValue)] int pageIndex, 
         [FromQuery] [Range(1, int.MaxValue)] int pageSize,
+        [FromQuery] ProblemStatus? status,
         [FromServices] IUseCase<PageDTO<ProblemDTO>, ProblemsPageFetchQuery> useCase,
         CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var result = await useCase.ExecuteAsync(new ProblemsPageFetchQuery(new PagingOptions(pageIndex, pageSize)), cancellationToken);
+        var result = await useCase.ExecuteAsync(new ProblemsPageFetchQuery(
+            new PagingOptions(pageIndex, pageSize), 
+            new ProblemsPageFilters(status)), cancellationToken);
         return result.Match(e => Ok(e.ToPageResponse(i => i.ToResponse())), BadRequestWithProblemDetails);
     }
 

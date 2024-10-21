@@ -10,7 +10,6 @@ namespace AGPU.AutomationManagement.Application.Problem.UseCases;
 
 internal sealed class ProblemsPageFetchUseCase(
     IReadDbContext readDbContext,
-    UserManager<Domain.Entities.User> userManager,
     ICurrentUserProvider currentUserProvider) : IUseCase<PageDTO<ProblemDTO>, ProblemsPageFetchQuery>
 {
     public async Task<Result<PageDTO<ProblemDTO>>> ExecuteAsync(ProblemsPageFetchQuery parameter, CancellationToken cancellationToken)
@@ -24,7 +23,7 @@ internal sealed class ProblemsPageFetchUseCase(
             .Problems
             .AsQueryable();
 
-        totalItemsCountQuery = ApplyFiltering(totalItemsCountQuery, currentUser);
+        totalItemsCountQuery = ApplyFiltering(totalItemsCountQuery, currentUser, parameter.Filters);
         var totalItemsCount = await totalItemsCountQuery.CountAsync(cancellationToken);
 
         var resultQuery = readDbContext
@@ -33,9 +32,7 @@ internal sealed class ProblemsPageFetchUseCase(
             .Include(e => e.Contractor)
             .AsQueryable();
 
-        resultQuery = ApplyFiltering(resultQuery, currentUser);
-        
-        // TODO: Сортировка или фильтрация по статусу.
+        resultQuery = ApplyFiltering(resultQuery, currentUser, parameter.Filters);
         
         var result = await resultQuery
             .OrderByDescending(e => e.CreatedAt)
@@ -46,9 +43,9 @@ internal sealed class ProblemsPageFetchUseCase(
         return new PageDTO<ProblemDTO>(result, totalItemsCount, parameter.PagingOptions);
     }
 
-    private static IQueryable<Domain.Entities.Problem> ApplyFiltering(IQueryable<Domain.Entities.Problem> source, Domain.Entities.User currentUser)
+    private static IQueryable<Domain.Entities.Problem> ApplyFiltering(IQueryable<Domain.Entities.Problem> source, Domain.Entities.User currentUser, ProblemsPageFilters filters)
     {
-        return currentUser.Roles switch
+        var result = currentUser.Roles switch
         {
             { Count: 1 } when currentUser.Roles[0].Role.Name!.Equals(Roles.User, StringComparison.InvariantCultureIgnoreCase) =>
                 source.Where(e => e.CreatorId == currentUser.Id),
@@ -56,5 +53,12 @@ internal sealed class ProblemsPageFetchUseCase(
                 source.Where(e => e.ContractorId == currentUser.Id),
             _ => source
         };
+
+        if (filters.ByProblemStatus is not null)
+        {
+            result = result.Where(e => e.Status == filters.ByProblemStatus);
+        }
+
+        return result;
     }
 }
