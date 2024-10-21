@@ -21,4 +21,6 @@ public class AuthController : BaseController
         var result = await useCase.ExecuteAsync(request.ToCommand(), cancellationToken);
         return result.Match(e => Ok(e.ToResponse()), BadRequestWithProblemDetails);
     }
+    
+    // TODO: Остальные важные операции.
 }

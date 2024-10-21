@@ -39,16 +39,16 @@ public static class Mapper
     {
         return new ProblemResponse(
             dto.Id,
-            dto.CreatedAt,
-            dto.CreatorId,
+            dto.CreationDateTime,
             dto.CreatorFullName,
             dto.CreatorPost,
             dto.Contractor?.ToResponse(),
             dto.Description,
             dto.Audience,
-            dto.ExecutionDateTime,
+            dto.SolvingDateTime,
             dto.Status,
-            dto.Type
+            dto.Type,
+            dto.SolvingScoreValue
         );
     }
 
@@ -82,13 +82,14 @@ public static class Mapper
         );
     }
 
-    public static ProblemMarkCompletedCommand ToCommand(this ProblemMarkCompletedRequest request, Guid problemId)
+    public static ProblemMarkSolvedCommand ToCommand(this ProblemMarkSolvedRequest request, Guid problemId)
     {
-        return new ProblemMarkCompletedCommand(
+        // TODO: Безопасное преобразование. Также нужно, чтобы конвертировало строки типа dd.mm.yyyy
+        return new ProblemMarkSolvedCommand(
             problemId,
             new DateTimeOffset(
-                DateOnly.Parse(request.ExecutionDate, CultureInfo.InvariantCulture), 
-                TimeOnly.Parse(request.ExecutionTime, CultureInfo.InvariantCulture), 
+                DateOnly.Parse(request.SolvingDate, CultureInfo.InvariantCulture), 
+                TimeOnly.Parse(request.SolvingTime, CultureInfo.InvariantCulture), 
                 TimeSpan.Zero)
         );
     }
@@ -120,5 +121,10 @@ public static class Mapper
             user.PhoneNumber,
             user.PhoneNumberConfirmed
         );
+    }
+
+    public static ProblemAssignSolvingScoreCommand ToCommand(this ProblemAssignSolvingScoreRequest request, Guid id)
+    {
+        return new ProblemAssignSolvingScoreCommand(id, request.Value, request.Description);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace AGPU.AutomationManagement.Domain.Entities;
 
-public sealed class Score : Entity
+public sealed class SolvingScore : Entity
 {
-    public required DateTimeOffset CreatedAt { get; init; }
+    public required DateTimeOffset CreationDateTime { get; init; }
     
     public required Guid ProblemId { get; init; }
     

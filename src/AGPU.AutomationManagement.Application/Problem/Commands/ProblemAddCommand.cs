@@ -5,5 +5,4 @@ namespace AGPU.AutomationManagement.Application.Problem.Commands;
 public record ProblemAddCommand(
     string Description,
     string Audience,
-    ProblemType Type
-    );
+    ProblemType Type);

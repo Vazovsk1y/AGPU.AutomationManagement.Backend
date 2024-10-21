@@ -30,12 +30,13 @@ internal sealed class ProblemsPageFetchUseCase(
             .Problems
             .Include(e => e.Creator)
             .Include(e => e.Contractor)
+            .Include(e => e.SolvingScore)
             .AsQueryable();
 
         resultQuery = ApplyFiltering(resultQuery, currentUser, parameter.Filters);
         
         var result = await resultQuery
-            .OrderByDescending(e => e.CreatedAt)
+            .OrderByDescending(e => e.CreationDateTime)
             .ApplyPaging(parameter.PagingOptions)
             .Select(e => e.ToDTO())
             .ToListAsync(cancellationToken);

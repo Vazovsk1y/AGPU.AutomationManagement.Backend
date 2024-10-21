@@ -5,17 +5,17 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AGPU.AutomationManagement.DAL.PostgreSQL.Configurations;
 
-public sealed class ScoreConfiguration : IEntityTypeConfiguration<Score>
+public sealed class SolvingScoreConfiguration : IEntityTypeConfiguration<SolvingScore>
 {
-    public void Configure(EntityTypeBuilder<Score> builder)
+    public void Configure(EntityTypeBuilder<SolvingScore> builder)
     {
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.Description)
-            .HasMaxLength(ScoreConstraints.DescriptionMaxLength);
+            .HasMaxLength(SolvingScoreConstraints.DescriptionMaxLength);
 
         builder.HasOne(e => e.Problem)
-            .WithOne(e => e.Score)
-            .HasForeignKey<Score>(e => e.ProblemId);
+            .WithOne(e => e.SolvingScore)
+            .HasForeignKey<SolvingScore>(e => e.ProblemId);
     }
 }

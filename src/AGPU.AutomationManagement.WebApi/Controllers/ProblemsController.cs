@@ -62,12 +62,26 @@ public class ProblemsController : BaseController
         return result.Match(Ok, BadRequestWithProblemDetails);
     }
 
-    [HttpPatch("{id}/mark-completed")]
+    [HttpPatch("{id}/mark-solved")]
     [PermittedTo(Roles.Engineer)]
-    public async Task<IActionResult> ProblemMarkCompleted(
+    public async Task<IActionResult> ProblemMarkSolved(
         [FromRoute] Guid id,
-        ProblemMarkCompletedRequest request,
-        [FromServices] IUseCase<ProblemMarkCompletedCommand> useCase,
+        ProblemMarkSolvedRequest request,
+        [FromServices] IUseCase<ProblemMarkSolvedCommand> useCase,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var result = await useCase.ExecuteAsync(request.ToCommand(id), cancellationToken);
+        return result.Match(Ok, BadRequestWithProblemDetails);
+    }
+
+    [HttpPatch("{id}/assign-solving-score")]
+    [PermittedTo(Roles.User)]
+    public async Task<IActionResult> ProblemAssignSolvingScore(
+        [FromRoute] Guid id,
+        ProblemAssignSolvingScoreRequest request,
+        [FromServices] IUseCase<ProblemAssignSolvingScoreCommand> useCase,
         CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();

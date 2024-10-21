@@ -148,7 +148,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     LoginProvider = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Expires = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    ExpirationDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     Value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -167,12 +167,12 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    CreationDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
                     ContractorId = table.Column<Guid>(type: "uuid", nullable: true),
                     Description = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Audience = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    ExecutionDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    SolvingDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     Status = table.Column<string>(type: "text", nullable: false),
                     Type = table.Column<string>(type: "text", nullable: false)
                 },
@@ -193,20 +193,20 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Score",
+                name: "SolvingScores",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    CreationDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     ProblemId = table.Column<Guid>(type: "uuid", nullable: false),
                     Value = table.Column<float>(type: "real", nullable: false),
                     Description = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Score", x => x.Id);
+                    table.PrimaryKey("PK_SolvingScores", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Score_Problems_ProblemId",
+                        name: "FK_SolvingScores_Problems_ProblemId",
                         column: x => x.ProblemId,
                         principalTable: "Problems",
                         principalColumn: "Id",
@@ -227,7 +227,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FullName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Post", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("3c04bbfc-9f26-444d-8028-9303e2e5f2e8"), 0, "3c04bbfd-9f26-444d-8028-9303e2e5f2e8", "test@gmail.com", false, "Самый Первый Админинистратор", false, null, "TEST@GMAIL.COM", "SUPERADMIN", "AQAAAAIAAYagAAAAEIL2jCjdR+lYtKuz7V/WnbcxqNYQtT5i8E3S1x97vjM0VLu2N2gALOXRhPoFAQf/PA==", null, false, "Самый первый админ", "3c04bbfc-9f26-444d-8028-9303e2e5f2e6", false, "SuperAdmin" });
+                values: new object[] { new Guid("3c04bbfc-9f26-444d-8028-9303e2e5f2e8"), 0, "3c04bbfd-9f26-444d-8028-9303e2e5f2e8", "not_a_real_email@gmail.com", false, "Самый Первый Пользователь", false, null, "NOT_A_REAL_EMAIL@GMAIL.COM", "SUPERUSER", "AQAAAAIAAYagAAAAEKMdMCMgfVm9rTZl99jUhGPUOOxAuzoKlbQe7ODaXMUSMWrthWqaRAcVqKtztJG3HQ==", null, false, "Всемогущий", "3c04bbfc-9f26-444d-8028-9303e2e5f2e6", false, "SuperUser" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -289,8 +289,8 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                 column: "CreatorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Score_ProblemId",
-                table: "Score",
+                name: "IX_SolvingScores_ProblemId",
+                table: "SolvingScores",
                 column: "ProblemId",
                 unique: true);
         }
@@ -314,7 +314,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Score");
+                name: "SolvingScores");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

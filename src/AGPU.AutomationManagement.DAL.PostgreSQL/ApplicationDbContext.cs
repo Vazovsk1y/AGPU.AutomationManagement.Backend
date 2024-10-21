@@ -13,7 +13,7 @@ public sealed class ApplicationDbContext(DbContextOptions options) :
 {
     public DbSet<Problem> Problems { get; init; }
     
-    public DbSet<Score> Scores { get; init; }
+    public DbSet<SolvingScore> SolvingScores { get; init; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

@@ -20,7 +20,7 @@ internal sealed class ProblemAddUseCase(
         var request = new Domain.Entities.Problem
         {
             Id = Guid.NewGuid(),
-            CreatedAt = timeProvider.GetUtcNow(),
+            CreationDateTime = timeProvider.GetUtcNow(),
             CreatorId = currentUser.Id,
             Description = parameter.Description.Trim(),
             Audience = parameter.Audience.Trim(),

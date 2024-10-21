@@ -90,7 +90,7 @@ internal sealed class SignInUseCase(
         {
             refreshToken = new UserToken
             {
-                Expires = currentDateTime.Add(_tokenSettings.Refresh.TokenLifetime),
+                ExpirationDateTime = currentDateTime.Add(_tokenSettings.Refresh.TokenLifetime),
                 Value = refreshTokenValue,
                 UserId = user.Id,
                 LoginProvider = RefreshTokenProvider.LoginProvider,
@@ -101,7 +101,7 @@ internal sealed class SignInUseCase(
         }
         else
         {
-            refreshToken.Expires = currentDateTime.Add(_tokenSettings.Refresh.TokenLifetime);
+            refreshToken.ExpirationDateTime = currentDateTime.Add(_tokenSettings.Refresh.TokenLifetime);
             refreshToken.Value = refreshTokenValue;
         }
     }

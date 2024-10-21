@@ -20,7 +20,7 @@ internal sealed class ProblemAttachContractorUseCase(
 
         var result = await target
             .EnsureNotNull("Запись не найдена в базе данных.")
-            .Ensure(problem => problem.Status != ProblemStatus.Completed, "Проблема уже решена.")
+            .Ensure(problem => problem.Status != ProblemStatus.Solved, "Проблема уже решена.")
             .MatchAsync(
                 async problem =>
                 {

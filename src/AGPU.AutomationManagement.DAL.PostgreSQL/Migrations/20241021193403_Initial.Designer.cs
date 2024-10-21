@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241021111651_Initial")]
+    [Migration("20241021193403_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -39,7 +39,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                     b.Property<Guid?>("ContractorId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
+                    b.Property<DateTimeOffset>("CreationDateTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("CreatorId")
@@ -50,7 +50,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<DateTimeOffset?>("ExecutionDateTime")
+                    b.Property<DateTimeOffset?>("SolvingDateTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Status")
@@ -127,13 +127,13 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                         });
                 });
 
-            modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.Score", b =>
+            modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.SolvingScore", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
+                    b.Property<DateTimeOffset>("CreationDateTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
@@ -151,7 +151,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                     b.HasIndex("ProblemId")
                         .IsUnique();
 
-                    b.ToTable("Score");
+                    b.ToTable("SolvingScores");
                 });
 
             modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.User", b =>
@@ -235,18 +235,18 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                             Id = new Guid("3c04bbfc-9f26-444d-8028-9303e2e5f2e8"),
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "3c04bbfd-9f26-444d-8028-9303e2e5f2e8",
-                            Email = "test@gmail.com",
+                            Email = "not_a_real_email@gmail.com",
                             EmailConfirmed = false,
-                            FullName = "Самый Первый Админинистратор",
+                            FullName = "Самый Первый Пользователь",
                             LockoutEnabled = false,
-                            NormalizedEmail = "TEST@GMAIL.COM",
-                            NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIL2jCjdR+lYtKuz7V/WnbcxqNYQtT5i8E3S1x97vjM0VLu2N2gALOXRhPoFAQf/PA==",
+                            NormalizedEmail = "NOT_A_REAL_EMAIL@GMAIL.COM",
+                            NormalizedUserName = "SUPERUSER",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKMdMCMgfVm9rTZl99jUhGPUOOxAuzoKlbQe7ODaXMUSMWrthWqaRAcVqKtztJG3HQ==",
                             PhoneNumberConfirmed = false,
-                            Post = "Самый первый админ",
+                            Post = "Всемогущий",
                             SecurityStamp = "3c04bbfc-9f26-444d-8028-9303e2e5f2e6",
                             TwoFactorEnabled = false,
-                            UserName = "SuperAdmin"
+                            UserName = "SuperUser"
                         });
                 });
 
@@ -298,7 +298,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<DateTimeOffset?>("Expires")
+                    b.Property<DateTimeOffset?>("ExpirationDateTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Value")
@@ -395,11 +395,11 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                     b.Navigation("Creator");
                 });
 
-            modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.Score", b =>
+            modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.SolvingScore", b =>
                 {
                     b.HasOne("AGPU.AutomationManagement.Domain.Entities.Problem", "Problem")
-                        .WithOne("Score")
-                        .HasForeignKey("AGPU.AutomationManagement.Domain.Entities.Score", "ProblemId")
+                        .WithOne("SolvingScore")
+                        .HasForeignKey("AGPU.AutomationManagement.Domain.Entities.SolvingScore", "ProblemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -463,7 +463,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
 
             modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.Problem", b =>
                 {
-                    b.Navigation("Score");
+                    b.Navigation("SolvingScore");
                 });
 
             modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.Role", b =>

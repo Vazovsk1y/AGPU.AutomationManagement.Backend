@@ -9,5 +9,5 @@ public sealed class User : IdentityUser<Guid>, IEntity
     
     public required string Post { get; init; }
 
-    public IList<UserRole> Roles { get; set; } = new List<UserRole>();
+    public IList<UserRole> Roles { get; init; } = new List<UserRole>();
 }

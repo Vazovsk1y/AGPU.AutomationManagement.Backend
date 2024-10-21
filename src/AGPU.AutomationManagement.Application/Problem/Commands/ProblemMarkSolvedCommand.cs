@@ -1,5 +1,5 @@
 ﻿namespace AGPU.AutomationManagement.Application.Problem.Commands;
 
-public record ProblemMarkCompletedCommand(
+public record ProblemMarkSolvedCommand(
     Guid ProblemId,
-    DateTimeOffset ExecutionDateTime);
+    DateTimeOffset SolvingDateTime);

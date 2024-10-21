@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using AGPU.AutomationManagement.WebApi.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 
@@ -13,6 +14,9 @@ public static class Registrator
         services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
         services.AddHttpContextAccessor();
 
+        services.AddExceptionHandler<GlobalExceptionHandler>();
+        services.AddProblemDetails();
+        
         services.AddSwagger();
         return services;
     }

@@ -20,4 +20,10 @@ public static class CommonEx
             .Skip((pagingOptions.PageIndex - 1) * pagingOptions.PageSize)
             .Take(pagingOptions.PageSize);
     }
+    
+    /// <returns>null - if value equal to null or whitespace, otherwise trimmed value.</returns>
+    public static string? TrimIfNotNullOrWhiteSpace(this string? value)
+    {
+        return string.IsNullOrWhiteSpace(value) ? null : value.Trim();
+    }
 }

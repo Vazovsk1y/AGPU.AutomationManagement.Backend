@@ -10,5 +10,8 @@ internal class ProblemsPageFetchQueryValidator : AbstractValidator<ProblemsPageF
     {
         RuleFor(e => e.PagingOptions)
             .SetValidator(pagingOptionsValidator);
+
+        RuleFor(e => e.Filters)
+            .NotNull();
     }
 }

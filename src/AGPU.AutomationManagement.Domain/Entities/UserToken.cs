@@ -4,5 +4,5 @@ namespace AGPU.AutomationManagement.Domain.Entities;
 
 public sealed class UserToken : IdentityUserToken<Guid>
 {
-    public DateTimeOffset? Expires { get; set; }
+    public DateTimeOffset? ExpirationDateTime { get; set; }
 }

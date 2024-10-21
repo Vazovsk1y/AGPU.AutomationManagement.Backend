@@ -8,13 +8,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AGPU.AutomationManagement.Application.Problem.UseCases;
 
-internal sealed class ProblemScoreAddUseCase(
+internal sealed class ProblemAssignSolvingScoreUseCase(
     ICurrentUserProvider currentUserProvider,
     IWriteDbContext writeDbContext,
     TimeProvider timeProvider
-    ) : IUseCase<ProblemScoreAddCommand>
+    ) : IUseCase<ProblemAssignSolvingScoreCommand>
 {
-    public async Task<Result> ExecuteAsync(ProblemScoreAddCommand parameter, CancellationToken cancellationToken)
+    public async Task<Result> ExecuteAsync(ProblemAssignSolvingScoreCommand parameter, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -25,23 +25,22 @@ internal sealed class ProblemScoreAddUseCase(
             .Problems
             .FirstOrDefaultAsync(e => e.Id == parameter.ProblemId, cancellationToken);
 
-        // TODO: Протестировать.
-        
         var result = await problem
             .EnsureNotNull("Запись не найдена в базе данных.")
             .Ensure(pr => pr.CreatorId == currentUser.Id, "У вас нет полномочий на выполнение данной операции.")
-            .Ensure(pr => pr.Status == ProblemStatus.Completed, "Проблема должна быть завершенна.")
+            .Ensure(pr => pr.Status == ProblemStatus.Solved, "Проблема должна быть решена.")
             .MatchAsync(async pr =>
             {
-                var score = new Score
+                var score = new SolvingScore
                 {
-                    CreatedAt = timeProvider.GetUtcNow(),
+                    CreationDateTime = timeProvider.GetUtcNow(),
                     ProblemId = pr.Id,
                     Value = parameter.Value,
                     Id = Guid.NewGuid(),
+                    Description = parameter.Description.TrimIfNotNullOrWhiteSpace(),
                 };
 
-                writeDbContext.Scores.Add(score);
+                writeDbContext.SolvingScores.Add(score);
                 await writeDbContext.SaveChangesAsync(cancellationToken);
 
                 return Result.Success();

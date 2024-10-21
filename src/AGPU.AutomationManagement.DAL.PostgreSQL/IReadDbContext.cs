@@ -22,5 +22,5 @@ public interface IReadDbContext
     
     DbSet<UserRole> UserRoles { get; }
     
-    DbSet<Score> Scores { get; }
+    DbSet<SolvingScore> SolvingScores { get; }
 }

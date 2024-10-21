@@ -10,6 +10,8 @@ builder.Services.AddDataAccessLayer(builder.GetDatabaseSettings());
 
 var app = builder.Build();
 
+app.UseExceptionHandler();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

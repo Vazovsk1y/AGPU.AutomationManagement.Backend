@@ -5,7 +5,7 @@ namespace AGPU.AutomationManagement.Domain.Entities;
 
 public sealed class Problem : Entity
 {
-    public required DateTimeOffset CreatedAt { get; init; }
+    public required DateTimeOffset CreationDateTime { get; init; }
     
     public required Guid CreatorId { get; init; }
     
@@ -15,7 +15,7 @@ public sealed class Problem : Entity
     
     public required string Audience { get; init; }
     
-    public DateTimeOffset? ExecutionDateTime { get; set; }
+    public DateTimeOffset? SolvingDateTime { get; set; }
     
     public required ProblemStatus Status { get; set; }
     
@@ -25,5 +25,5 @@ public sealed class Problem : Entity
 
     public User? Contractor { get; init; }
     
-    public Score? Score { get; init; }
+    public SolvingScore? SolvingScore { get; init; }
 }

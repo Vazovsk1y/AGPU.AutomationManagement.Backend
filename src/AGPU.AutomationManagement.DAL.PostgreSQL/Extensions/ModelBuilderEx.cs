@@ -51,14 +51,14 @@ public static class ModelBuilderEx
 
         var firstUser = new User
         {
-            FullName = "Самый Первый Админинистратор",
-            Post = "Самый первый админ",
+            FullName = "Самый Первый Пользователь",
+            Post = "Всемогущий",
             Id = new Guid("3c04bbfc-9f26-444d-8028-9303e2e5f2e8"),
-            Email = "test@gmail.com",
+            Email = "not_a_real_email@gmail.com",
             EmailConfirmed = false,
-            UserName = "SuperAdmin",
-            NormalizedUserName = "SUPERADMIN",
-            NormalizedEmail = "TEST@GMAIL.COM",
+            UserName = "SuperUser",
+            NormalizedUserName = "SUPERUSER",
+            NormalizedEmail = "NOT_A_REAL_EMAIL@GMAIL.COM",
             ConcurrencyStamp = new Guid("3c04bbfd-9f26-444d-8028-9303e2e5f2e8").ToString(),
             SecurityStamp = new Guid("3c04bbfc-9f26-444d-8028-9303e2e5f2e6").ToString(),
         };

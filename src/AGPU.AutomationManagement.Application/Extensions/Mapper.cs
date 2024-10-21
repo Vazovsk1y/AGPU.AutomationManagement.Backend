@@ -9,16 +9,16 @@ public static class Mapper
     {
         return new ProblemDTO(
             problem.Id,
-            problem.CreatedAt,
-            problem.CreatorId,
+            problem.CreationDateTime,
             problem.Creator.FullName,
             problem.Creator.Post,
             problem.Contractor?.ToContractorDTO(),
             problem.Description,
             problem.Audience,
-            problem.ExecutionDateTime,
+            problem.SolvingDateTime,
             problem.Status,
-            problem.Type
+            problem.Type,
+            problem.SolvingScore?.Value
         );
     }
 

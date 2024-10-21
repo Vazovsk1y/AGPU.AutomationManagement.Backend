@@ -4,5 +4,5 @@ public enum ProblemStatus
 {
     Pending,
     InProgress,
-    Completed
+    Solved
 }

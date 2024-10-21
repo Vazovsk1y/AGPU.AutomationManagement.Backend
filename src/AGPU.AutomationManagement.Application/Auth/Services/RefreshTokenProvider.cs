@@ -42,7 +42,7 @@ internal sealed class RefreshTokenProvider(
                                        && e.Name == purpose);
 
         var currentDateTime = timeProvider.GetUtcNow();
-        return refreshToken is not null && refreshToken.Value == token && refreshToken.Expires >= currentDateTime;
+        return refreshToken is not null && refreshToken.Value == token && refreshToken.ExpirationDateTime >= currentDateTime;
     }
 
     private static string GenerateRandomString()

@@ -3,5 +3,4 @@
 public record ContractorResponse(
     Guid Id,
     string FullName,
-    string Post
-);
+    string Post);
