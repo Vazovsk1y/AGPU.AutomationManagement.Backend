@@ -3,7 +3,7 @@ using AGPU.AutomationManagement.Domain.Enums;
 
 namespace AGPU.AutomationManagement.Application.Problem;
 
-public record ProblemDTO(
+public record ProblemOverviewDTO(
     Guid Id,
     string Title,
     DateTimeOffset CreationDateTime,

@@ -33,16 +33,16 @@ public class ProblemsController : BaseController
 
     [HttpGet]
     [Authorize]
-    public async Task<IActionResult> ProblemsPageFetch(
+    public async Task<IActionResult> ProblemOverviewsPageFetch(
         [FromQuery] [Range(1, int.MaxValue)] int pageIndex, 
         [FromQuery] [Range(1, int.MaxValue)] int pageSize,
         [FromQuery] ProblemStatus? status,
-        [FromServices] IUseCase<PageDTO<ProblemDTO>, ProblemsPageFetchQuery> useCase,
+        [FromServices] IUseCase<PageDTO<ProblemOverviewDTO>, ProblemOverviewsPageFetchQuery> useCase,
         CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var result = await useCase.ExecuteAsync(new ProblemsPageFetchQuery(
+        var result = await useCase.ExecuteAsync(new ProblemOverviewsPageFetchQuery(
             new PagingOptions(pageIndex, pageSize), 
             new ProblemsPageFilters(status)), cancellationToken);
         return result.Match(e => Ok(e.ToPageResponse(i => i.ToResponse())), BadRequestWithProblemDetails);

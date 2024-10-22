@@ -4,9 +4,9 @@ using FluentValidation;
 
 namespace AGPU.AutomationManagement.Application.Validators;
 
-internal class ProblemsPageFetchQueryValidator : AbstractValidator<ProblemsPageFetchQuery>
+internal class ProblemOverviewsPageFetchQueryValidator : AbstractValidator<ProblemOverviewsPageFetchQuery>
 {
-    public ProblemsPageFetchQueryValidator(IValidator<PagingOptions> pagingOptionsValidator)
+    public ProblemOverviewsPageFetchQueryValidator(IValidator<PagingOptions> pagingOptionsValidator)
     {
         RuleFor(e => e.PagingOptions)
             .SetValidator(pagingOptionsValidator);

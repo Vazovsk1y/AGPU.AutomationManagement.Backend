@@ -3,16 +3,15 @@ using AGPU.AutomationManagement.Application.Extensions;
 using AGPU.AutomationManagement.Application.Problem.Queries;
 using AGPU.AutomationManagement.DAL.PostgreSQL;
 using AGPU.AutomationManagement.Domain.Constants;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace AGPU.AutomationManagement.Application.Problem.UseCases;
 
-internal sealed class ProblemsPageFetchUseCase(
+internal sealed class ProblemOverviewsPageFetchUseCase(
     IReadDbContext readDbContext,
-    ICurrentUserProvider currentUserProvider) : IUseCase<PageDTO<ProblemDTO>, ProblemsPageFetchQuery>
+    ICurrentUserProvider currentUserProvider) : IUseCase<PageDTO<ProblemOverviewDTO>, ProblemOverviewsPageFetchQuery>
 {
-    public async Task<Result<PageDTO<ProblemDTO>>> ExecuteAsync(ProblemsPageFetchQuery parameter, CancellationToken cancellationToken)
+    public async Task<Result<PageDTO<ProblemOverviewDTO>>> ExecuteAsync(ProblemOverviewsPageFetchQuery parameter, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         
@@ -41,7 +40,7 @@ internal sealed class ProblemsPageFetchUseCase(
             .Select(e => e.ToDTO())
             .ToListAsync(cancellationToken);
 
-        return new PageDTO<ProblemDTO>(result, totalItemsCount, parameter.PagingOptions);
+        return new PageDTO<ProblemOverviewDTO>(result, totalItemsCount, parameter.PagingOptions);
     }
 
     private static IQueryable<Domain.Entities.Problem> ApplyFiltering(IQueryable<Domain.Entities.Problem> source, Domain.Entities.User currentUser, ProblemsPageFilters filters)

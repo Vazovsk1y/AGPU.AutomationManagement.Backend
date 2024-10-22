@@ -2,7 +2,7 @@
 
 namespace AGPU.AutomationManagement.WebApi.Responses;
 
-public record ProblemResponse(
+public record ProblemOverviewResponse(
     Guid Id,
     string Title,
     DateTimeOffset CreationDateTime,

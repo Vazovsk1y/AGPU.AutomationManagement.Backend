@@ -3,7 +3,7 @@ using AGPU.AutomationManagement.Domain.Enums;
 
 namespace AGPU.AutomationManagement.Application.Problem.Queries;
 
-public record ProblemsPageFetchQuery(
+public record ProblemOverviewsPageFetchQuery(
     PagingOptions PagingOptions,
     ProblemsPageFilters Filters
     );

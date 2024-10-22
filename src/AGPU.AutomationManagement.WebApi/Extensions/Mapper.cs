@@ -37,9 +37,9 @@ public static class Mapper
         );
     }
 
-    public static ProblemResponse ToResponse(this ProblemDTO dto)
+    public static ProblemOverviewResponse ToResponse(this ProblemOverviewDTO dto)
     {
-        return new ProblemResponse(
+        return new ProblemOverviewResponse(
             dto.Id,
             dto.Title,
             dto.CreationDateTime,

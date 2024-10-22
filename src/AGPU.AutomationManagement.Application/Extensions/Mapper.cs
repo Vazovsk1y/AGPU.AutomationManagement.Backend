@@ -5,9 +5,9 @@ namespace AGPU.AutomationManagement.Application.Extensions;
 
 public static class Mapper
 {
-    public static ProblemDTO ToDTO(this Domain.Entities.Problem problem)
+    public static ProblemOverviewDTO ToDTO(this Domain.Entities.Problem problem)
     {
-        return new ProblemDTO(
+        return new ProblemOverviewDTO(
             problem.Id,
             problem.Title,
             problem.CreationDateTime,
