@@ -36,7 +36,6 @@ internal sealed class ProblemAssignSolvingScoreUseCase(
                     CreationDateTime = timeProvider.GetUtcNow(),
                     ProblemId = pr.Id,
                     Value = parameter.Value,
-                    Id = Guid.NewGuid(),
                     Description = parameter.Description.TrimIfNotNullOrWhiteSpace(),
                 };
 
