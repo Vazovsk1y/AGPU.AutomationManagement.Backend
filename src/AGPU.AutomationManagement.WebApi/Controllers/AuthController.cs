@@ -3,7 +3,9 @@ using AGPU.AutomationManagement.Application.Auth.Commands;
 using AGPU.AutomationManagement.Application.Common;
 using AGPU.AutomationManagement.Application.Extensions;
 using AGPU.AutomationManagement.WebApi.Extensions;
+using AGPU.AutomationManagement.WebApi.Infrastructure;
 using AGPU.AutomationManagement.WebApi.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AGPU.AutomationManagement.WebApi.Controllers;
@@ -19,6 +21,20 @@ public class AuthController : BaseController
         cancellationToken.ThrowIfCancellationRequested();
 
         var result = await useCase.ExecuteAsync(request.ToCommand(), cancellationToken);
+        return result.Match(e => Ok(e.ToResponse()), BadRequestWithProblemDetails);
+    }
+
+    [ValidateSecurityStamp]
+    [ValidateEmailConfirmation]
+    [HttpPost("refresh")]
+    public async Task<IActionResult> RefreshTokens(
+        RefreshTokensRequest request,
+        [FromServices] IUseCase<TokensDTO, RefreshTokensCommand> useCase,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var result = await useCase.ExecuteAsync(new RefreshTokensCommand(request.RefreshToken), cancellationToken);
         return result.Match(e => Ok(e.ToResponse()), BadRequestWithProblemDetails);
     }
     
