@@ -72,7 +72,12 @@ public class ProblemsController : BaseController
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var result = await useCase.ExecuteAsync(request.ToCommand(id), cancellationToken);
+        if (!request.TryToCommand(id, out var command))
+        {
+            return BadRequest();
+        }
+
+        var result = await useCase.ExecuteAsync(command, cancellationToken);
         return result.Match(Ok, BadRequestWithProblemDetails);
     }
 

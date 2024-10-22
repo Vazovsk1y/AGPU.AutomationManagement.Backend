@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using AGPU.AutomationManagement.Application.Auth;
 using AGPU.AutomationManagement.Application.Auth.Commands;
 using AGPU.AutomationManagement.Application.Common;
@@ -82,16 +83,25 @@ public static class Mapper
         );
     }
 
-    public static ProblemMarkSolvedCommand ToCommand(this ProblemMarkSolvedRequest request, Guid problemId)
+    public static bool TryToCommand(this ProblemMarkSolvedRequest request, Guid problemId, [NotNullWhen(true)] out ProblemMarkSolvedCommand? command)
     {
-        // TODO: Безопасное преобразование. Также нужно, чтобы конвертировало строки типа dd.mm.yyyy
-        return new ProblemMarkSolvedCommand(
+        if (!DateOnly.TryParseExact(request.SolvingDate, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
+        {
+            command = null;
+            return false;
+        }
+
+        if (!TimeOnly.TryParse(request.SolvingTime, CultureInfo.InvariantCulture, out var time))
+        {
+            command = null;
+            return false;
+        }
+
+        command = new ProblemMarkSolvedCommand(
             problemId,
-            new DateTimeOffset(
-                DateOnly.Parse(request.SolvingDate, CultureInfo.InvariantCulture), 
-                TimeOnly.Parse(request.SolvingTime, CultureInfo.InvariantCulture), 
-                TimeSpan.Zero)
+            new DateTimeOffset(date, time, TimeSpan.Zero)
         );
+        return true;
     }
 
     public static SignInCommand ToCommand(this SignInRequest request)
