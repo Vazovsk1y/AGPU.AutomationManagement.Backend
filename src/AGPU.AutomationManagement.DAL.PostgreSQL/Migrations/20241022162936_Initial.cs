@@ -34,7 +34,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     FullName = table.Column<string>(type: "character varying(75)", maxLength: 75, nullable: false),
-                    Post = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Post = table.Column<string>(type: "character varying(65)", maxLength: 65, nullable: false),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -171,7 +171,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                     Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
                     ContractorId = table.Column<Guid>(type: "uuid", nullable: true),
-                    Description = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
                     Audience = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     SolvingDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     Status = table.Column<string>(type: "text", nullable: false),
@@ -201,7 +201,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                     CreationDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     ProblemId = table.Column<Guid>(type: "uuid", nullable: false),
                     Value = table.Column<float>(type: "real", nullable: false),
-                    Description = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: true)
+                    Description = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -228,7 +228,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FullName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Post", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("3c04bbfc-9f26-444d-8028-9303e2e5f2e8"), 0, "3c04bbfd-9f26-444d-8028-9303e2e5f2e8", "not_a_real_email@gmail.com", false, "Самый Первый Пользователь", false, null, "NOT_A_REAL_EMAIL@GMAIL.COM", "SUPERUSER", "AQAAAAIAAYagAAAAEGLwYnJWMTo3eeBGd/YGpZtmG2iBPX30OUwFzxLcm3aP6/ZQuLzmN4McBvxQ+JGuIA==", null, false, "Всемогущий", "3c04bbfc-9f26-444d-8028-9303e2e5f2e6", false, "SuperUser" });
+                values: new object[] { new Guid("3c04bbfc-9f26-444d-8028-9303e2e5f2e8"), 0, "3c04bbfd-9f26-444d-8028-9303e2e5f2e8", "not_a_real_email@gmail.com", false, "Самый Первый Пользователь", false, null, "NOT_A_REAL_EMAIL@GMAIL.COM", "SUPERUSER", "AQAAAAIAAYagAAAAEGKRLS3rsV3FK588er0/TJ79/kb8CqpeoOIzyiFLit1mP93kVM+kTGLmRE4Ce2YeAg==", null, false, "Всемогущий", "3c04bbfc-9f26-444d-8028-9303e2e5f2e6", false, "SuperUser" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

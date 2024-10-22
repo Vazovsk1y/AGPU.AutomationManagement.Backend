@@ -2,5 +2,5 @@
 
 public static class SolvingScoreConstraints
 {
-    public const int DescriptionMaxLength = 300;
+    public const int DescriptionMaxLength = 350;
 }

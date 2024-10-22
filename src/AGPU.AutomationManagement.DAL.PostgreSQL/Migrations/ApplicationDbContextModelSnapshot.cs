@@ -44,8 +44,8 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasMaxLength(350)
+                        .HasColumnType("character varying(350)");
 
                     b.Property<DateTimeOffset?>("SolvingDateTime")
                         .HasColumnType("timestamp with time zone");
@@ -139,8 +139,8 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(300)
-                        .HasColumnType("character varying(300)");
+                        .HasMaxLength(350)
+                        .HasColumnType("character varying(350)");
 
                     b.Property<Guid>("ProblemId")
                         .HasColumnType("uuid");
@@ -206,8 +206,8 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
 
                     b.Property<string>("Post")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasMaxLength(65)
+                        .HasColumnType("character varying(65)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
@@ -243,7 +243,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "NOT_A_REAL_EMAIL@GMAIL.COM",
                             NormalizedUserName = "SUPERUSER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGLwYnJWMTo3eeBGd/YGpZtmG2iBPX30OUwFzxLcm3aP6/ZQuLzmN4McBvxQ+JGuIA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGKRLS3rsV3FK588er0/TJ79/kb8CqpeoOIzyiFLit1mP93kVM+kTGLmRE4Ce2YeAg==",
                             PhoneNumberConfirmed = false,
                             Post = "Всемогущий",
                             SecurityStamp = "3c04bbfc-9f26-444d-8028-9303e2e5f2e6",
