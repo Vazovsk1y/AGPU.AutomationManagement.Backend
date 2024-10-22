@@ -4,11 +4,10 @@ namespace AGPU.AutomationManagement.WebApi.Responses;
 
 public record ProblemResponse(
     Guid Id,
+    string Title,
     DateTimeOffset CreationDateTime,
     string CreatorFullName,
-    string CreatorPost,
     ContractorResponse? Contractor,
-    string Description,
     string Audience,
     DateTimeOffset? SolvingDateTime,
     ProblemStatus Status,

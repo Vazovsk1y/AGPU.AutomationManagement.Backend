@@ -5,14 +5,12 @@ namespace AGPU.AutomationManagement.Application.Problem;
 
 public record ProblemDTO(
     Guid Id,
+    string Title,
     DateTimeOffset CreationDateTime,
     string CreatorFullName,
-    string CreatorPost,
     ContractorDTO? Contractor,
-    string Description,
     string Audience,
     DateTimeOffset? SolvingDateTime,
     ProblemStatus Status,
     ProblemType Type,
-    float? SolvingScoreValue
-    );
+    float? SolvingScoreValue);

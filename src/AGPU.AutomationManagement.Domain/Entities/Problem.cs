@@ -7,6 +7,8 @@ public sealed class Problem : Entity
 {
     public required DateTimeOffset CreationDateTime { get; init; }
     
+    public required string Title { get; init; }
+    
     public required Guid CreatorId { get; init; }
     
     public Guid? ContractorId { get; set; }

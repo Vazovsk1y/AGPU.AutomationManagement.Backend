@@ -14,6 +14,10 @@ public sealed class ProblemConfiguration : IEntityTypeConfiguration<Problem>
             .HasKey(e => e.Id);
 
         builder
+            .Property(e => e.Title)
+            .HasMaxLength(ProblemConstraints.TitleMaxLength);
+
+        builder
             .Property(e => e.Description)
             .HasMaxLength(ProblemConstraints.DescriptionMaxLength);
 

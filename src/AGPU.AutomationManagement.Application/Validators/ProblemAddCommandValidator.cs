@@ -8,6 +8,11 @@ internal class ProblemAddCommandValidator : AbstractValidator<ProblemAddCommand>
 {
     public ProblemAddCommandValidator()
     {
+        RuleFor(e => e.Title)
+            .NotEmpty()
+            .WithMessage("Необходимо указать название.")
+            .MaximumLength(ProblemConstraints.TitleMaxLength);
+        
         RuleFor(e => e.Description)
             .NotEmpty()
             .WithMessage("Необходимо заполнить описание.")

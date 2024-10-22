@@ -168,6 +168,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CreationDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     CreatorId = table.Column<Guid>(type: "uuid", nullable: false),
                     ContractorId = table.Column<Guid>(type: "uuid", nullable: true),
                     Description = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
@@ -227,7 +228,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FullName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Post", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("3c04bbfc-9f26-444d-8028-9303e2e5f2e8"), 0, "3c04bbfd-9f26-444d-8028-9303e2e5f2e8", "not_a_real_email@gmail.com", false, "Самый Первый Пользователь", false, null, "NOT_A_REAL_EMAIL@GMAIL.COM", "SUPERUSER", "AQAAAAIAAYagAAAAEKMdMCMgfVm9rTZl99jUhGPUOOxAuzoKlbQe7ODaXMUSMWrthWqaRAcVqKtztJG3HQ==", null, false, "Всемогущий", "3c04bbfc-9f26-444d-8028-9303e2e5f2e6", false, "SuperUser" });
+                values: new object[] { new Guid("3c04bbfc-9f26-444d-8028-9303e2e5f2e8"), 0, "3c04bbfd-9f26-444d-8028-9303e2e5f2e8", "not_a_real_email@gmail.com", false, "Самый Первый Пользователь", false, null, "NOT_A_REAL_EMAIL@GMAIL.COM", "SUPERUSER", "AQAAAAIAAYagAAAAEGLwYnJWMTo3eeBGd/YGpZtmG2iBPX30OUwFzxLcm3aP6/ZQuLzmN4McBvxQ+JGuIA==", null, false, "Всемогущий", "3c04bbfc-9f26-444d-8028-9303e2e5f2e6", false, "SuperUser" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

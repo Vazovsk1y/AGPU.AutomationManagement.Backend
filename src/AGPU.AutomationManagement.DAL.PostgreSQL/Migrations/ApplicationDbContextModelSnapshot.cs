@@ -54,6 +54,11 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("text");
@@ -238,7 +243,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "NOT_A_REAL_EMAIL@GMAIL.COM",
                             NormalizedUserName = "SUPERUSER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKMdMCMgfVm9rTZl99jUhGPUOOxAuzoKlbQe7ODaXMUSMWrthWqaRAcVqKtztJG3HQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGLwYnJWMTo3eeBGd/YGpZtmG2iBPX30OUwFzxLcm3aP6/ZQuLzmN4McBvxQ+JGuIA==",
                             PhoneNumberConfirmed = false,
                             Post = "Всемогущий",
                             SecurityStamp = "3c04bbfc-9f26-444d-8028-9303e2e5f2e6",

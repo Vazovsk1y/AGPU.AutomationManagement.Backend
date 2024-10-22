@@ -30,6 +30,7 @@ public static class Mapper
     public static ProblemAddCommand ToCommand(this ProblemAddRequest request)
     {
         return new ProblemAddCommand(
+            request.Title,
             request.Description,
             request.Audience,
             request.Type
@@ -40,11 +41,10 @@ public static class Mapper
     {
         return new ProblemResponse(
             dto.Id,
+            dto.Title,
             dto.CreationDateTime,
             dto.CreatorFullName,
-            dto.CreatorPost,
             dto.Contractor?.ToResponse(),
-            dto.Description,
             dto.Audience,
             dto.SolvingDateTime,
             dto.Status,

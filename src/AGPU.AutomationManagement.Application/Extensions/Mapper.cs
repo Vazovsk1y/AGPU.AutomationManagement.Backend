@@ -9,11 +9,10 @@ public static class Mapper
     {
         return new ProblemDTO(
             problem.Id,
+            problem.Title,
             problem.CreationDateTime,
             problem.Creator.FullName,
-            problem.Creator.Post,
             problem.Contractor?.ToContractorDTO(),
-            problem.Description,
             problem.Audience,
             problem.SolvingDateTime,
             problem.Status,
@@ -27,7 +26,6 @@ public static class Mapper
         return new ContractorDTO(
             user.Id,
             user.FullName,
-            user.Post
-        );
+            user.Post);
     }
 }
