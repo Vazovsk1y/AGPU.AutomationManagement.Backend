@@ -37,6 +37,18 @@ public class AuthController : BaseController
         var result = await useCase.ExecuteAsync(new RefreshTokensCommand(request.RefreshToken), cancellationToken);
         return result.Match(e => Ok(e.ToResponse()), BadRequestWithProblemDetails);
     }
-    
-    // TODO: Остальные важные операции.
+
+    [Authorize]
+    [ValidateEmailConfirmation]
+    [ValidateSecurityStamp]
+    [HttpDelete("revoke")]
+    public async Task<IActionResult> RevokeRefreshToken(
+        [FromServices] IUseCase<RevokeRefreshTokenCommand> useCase, 
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        
+        var result = await useCase.ExecuteAsync(new RevokeRefreshTokenCommand(), cancellationToken);
+        return result.Match(Ok, BadRequestWithProblemDetails);
+    }
 }
