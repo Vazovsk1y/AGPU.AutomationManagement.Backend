@@ -9,5 +9,4 @@ public record ProblemOverviewsPageFetchQuery(
     );
 
 public record ProblemsPageFilters(
-    ProblemStatus? ByProblemStatus
-    );
+    ProblemStatus? ByProblemStatus);
