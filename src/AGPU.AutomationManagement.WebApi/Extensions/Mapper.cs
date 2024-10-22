@@ -120,10 +120,10 @@ public static class Mapper
     {
         return new CurrentUserResponse(
             user.Id,
-            user.UserName,
+            user.UserName!,
             user.FullName,
             user.Post,
-            user.Email,
+            user.Email!,
             user.EmailConfirmed,
             user.PhoneNumber,
             user.PhoneNumberConfirmed

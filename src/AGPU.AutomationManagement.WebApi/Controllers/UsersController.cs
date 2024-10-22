@@ -56,4 +56,6 @@ public class UsersController : BaseController
         var currentUser = await currentUserProvider.GetCurrentUserAsync();
         return currentUser is null ? Unauthorized() : Ok(currentUser.ToCurrentUserResponse());
     }
+    
+    // TODO: Endpoint на получение страницы пользователей.
 }

@@ -43,7 +43,7 @@ internal sealed class ProblemOverviewsPageFetchUseCase(
         return new PageDTO<ProblemOverviewDTO>(result, totalItemsCount, parameter.PagingOptions);
     }
 
-    private static IQueryable<Domain.Entities.Problem> ApplyFiltering(IQueryable<Domain.Entities.Problem> source, Domain.Entities.User currentUser, ProblemsPageFilters filters)
+    private static IQueryable<Domain.Entities.Problem> ApplyFiltering(IQueryable<Domain.Entities.Problem> source, Domain.Entities.User currentUser, ProblemOverviewsPageFilters filters)
     {
         var result = currentUser.Roles switch
         {

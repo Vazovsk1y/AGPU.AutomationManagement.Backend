@@ -26,6 +26,8 @@ internal sealed class UserRegisterUseCase(
 
         try
         {
+            // TODO: Админ может добавить любого пользователя, в свою очередь зам. админа пользователя и инженера.
+            
             var userCreationResult = await userManager.CreateAsync(user, parameter.Password);
             if (!userCreationResult.Succeeded)
             {

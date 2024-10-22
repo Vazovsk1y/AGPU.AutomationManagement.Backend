@@ -44,7 +44,7 @@ public class ProblemsController : BaseController
 
         var result = await useCase.ExecuteAsync(new ProblemOverviewsPageFetchQuery(
             new PagingOptions(pageIndex, pageSize), 
-            new ProblemsPageFilters(status)), cancellationToken);
+            new ProblemOverviewsPageFilters(status)), cancellationToken);
         return result.Match(e => Ok(e.ToPageResponse(i => i.ToResponse())), BadRequestWithProblemDetails);
     }
 

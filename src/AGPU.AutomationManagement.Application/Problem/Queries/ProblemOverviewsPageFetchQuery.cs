@@ -5,8 +5,8 @@ namespace AGPU.AutomationManagement.Application.Problem.Queries;
 
 public record ProblemOverviewsPageFetchQuery(
     PagingOptions PagingOptions,
-    ProblemsPageFilters Filters
+    ProblemOverviewsPageFilters Filters
     );
 
-public record ProblemsPageFilters(
+public record ProblemOverviewsPageFilters(
     ProblemStatus? ByProblemStatus);
