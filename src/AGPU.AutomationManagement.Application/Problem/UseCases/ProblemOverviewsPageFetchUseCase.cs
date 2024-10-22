@@ -37,7 +37,7 @@ internal sealed class ProblemOverviewsPageFetchUseCase(
         var result = await resultQuery
             .OrderByDescending(e => e.CreationDateTime)
             .ApplyPaging(parameter.PagingOptions)
-            .Select(e => e.ToDTO())
+            .Select(e => e.ToPreviewDTO())
             .ToListAsync(cancellationToken);
 
         return new PageDTO<ProblemOverviewDTO>(result, totalItemsCount, parameter.PagingOptions);

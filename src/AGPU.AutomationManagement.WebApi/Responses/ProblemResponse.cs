@@ -2,11 +2,17 @@
 
 namespace AGPU.AutomationManagement.WebApi.Responses;
 
-public record ProblemOverviewResponse(
+public record ProblemResponse(
     Guid Id,
     string Title,
     DateTimeOffset CreationDateTime,
     string CreatorFullName,
+    string CreatorPost,
+    ContractorResponse? Contractor,
     string Audience,
+    DateTimeOffset? SolvingDateTime,
+    string Description,
     ProblemStatus Status,
-    ProblemType Type);
+    ProblemType Type,
+    float? SolvingScoreValue,
+    string? SolvingScoreDescription);

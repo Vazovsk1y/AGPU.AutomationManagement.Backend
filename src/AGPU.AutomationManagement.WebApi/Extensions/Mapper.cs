@@ -44,12 +44,9 @@ public static class Mapper
             dto.Title,
             dto.CreationDateTime,
             dto.CreatorFullName,
-            dto.Contractor?.ToResponse(),
             dto.Audience,
-            dto.SolvingDateTime,
             dto.Status,
-            dto.Type,
-            dto.SolvingScoreValue
+            dto.Type
         );
     }
 
@@ -136,5 +133,24 @@ public static class Mapper
     public static ProblemAssignSolvingScoreCommand ToCommand(this ProblemAssignSolvingScoreRequest request, Guid id)
     {
         return new ProblemAssignSolvingScoreCommand(id, request.Value, request.Description);
+    }
+    
+    public static ProblemResponse ToResponse(this ProblemDTO dto)
+    {
+        return new ProblemResponse(
+            dto.Id,
+            dto.Title,
+            dto.CreationDateTime,
+            dto.CreatorFullName,
+            dto.CreatorPost,
+            dto.Contractor?.ToResponse(),
+            dto.Audience,
+            dto.SolvingDateTime,
+            dto.Description,
+            dto.Status,
+            dto.Type,
+            dto.SolvingScoreValue,
+            dto.SolvingScoreDescription
+        );
     }
 }

@@ -94,4 +94,17 @@ public class ProblemsController : BaseController
         var result = await useCase.ExecuteAsync(request.ToCommand(id), cancellationToken);
         return result.Match(Ok, BadRequestWithProblemDetails);
     }
+
+    [Authorize]
+    [HttpGet("{id}")]
+    public async Task<IActionResult> ProblemByIdFetch(
+        Guid id,
+        [FromServices] IUseCase<ProblemDTO, ProblemByIdFetchQuery> useCase,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var result = await useCase.ExecuteAsync(new ProblemByIdFetchQuery(id), cancellationToken);
+        return result.Match(e => Ok(e.ToResponse()), BadRequestWithProblemDetails);
+    }
 }
