@@ -153,4 +153,15 @@ public static class Mapper
             dto.SolvingScoreDescription
         );
     }
+    
+    public static UserResponse ToResponse(this UserDTO dto)
+    {
+        return new UserResponse(
+            dto.Id,
+            dto.FullName,
+            dto.Email,
+            dto.Username,
+            dto.Post
+        );
+    }
 }

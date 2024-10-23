@@ -44,4 +44,14 @@ public static class Mapper
             user.FullName,
             user.Post);
     }
+    
+    public static UserDTO ToDTO(this Domain.Entities.User user)
+    {
+        return new UserDTO(
+            user.Id,
+            user.FullName,
+            user.Email,
+            user.UserName,
+            user.Post);
+    }
 }

@@ -1,4 +1,5 @@
-﻿using AGPU.AutomationManagement.Application;
+﻿using System.ComponentModel.DataAnnotations;
+using AGPU.AutomationManagement.Application;
 using AGPU.AutomationManagement.Application.Common;
 using AGPU.AutomationManagement.Application.Extensions;
 using AGPU.AutomationManagement.Application.User;
@@ -56,6 +57,21 @@ public class UsersController : BaseController
         var currentUser = await currentUserProvider.GetCurrentUserAsync();
         return currentUser is null ? Unauthorized() : Ok(currentUser.ToCurrentUserResponse());
     }
-    
-    // TODO: Endpoint на получение страницы пользователей.
+
+    [HttpGet]
+    [PermittedTo(Roles.Administrator, Roles.DeputyAdministrator)]
+    [ValidateEmailConfirmation]
+    [ValidateSecurityStamp]
+    public async Task<IActionResult> UsersPageFetch(
+        [FromQuery] [Range(1, int.MaxValue)] int pageIndex, 
+        [FromQuery] [Range(1, int.MaxValue)] int pageSize,
+        [FromServices] IUseCase<PageDTO<UserDTO>, UsersPageFetchQuery> useCase,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        
+        var result = await useCase.ExecuteAsync(new UsersPageFetchQuery(
+            new PagingOptions(pageIndex, pageSize)), cancellationToken);
+        return result.Match(e => Ok(e.ToPageResponse(i => i.ToResponse())), BadRequestWithProblemDetails);
+    }
 }
