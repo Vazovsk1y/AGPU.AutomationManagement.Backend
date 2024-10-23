@@ -36,6 +36,11 @@ public static class ResultEx
         return result;
     }
     
+    public static Result<T> Ensure<T>(this T value, Func<T, bool> predicate, params Error[] errors)
+    {
+        return predicate.Invoke(value) ? Result.Success(value) : Result.Failure<T>(errors);
+    }
+    
     public static async Task<Result<T>> EnsureAsync<T>(this Result<T> result, Func<T, Task<bool>> predicate, params Error[] errors)
     {
         if (result.IsSuccess)
