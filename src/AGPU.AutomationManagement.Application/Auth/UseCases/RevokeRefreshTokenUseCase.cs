@@ -19,7 +19,7 @@ internal sealed class RevokeRefreshTokenUseCase(
         
         var refreshToken = await writeDbContext
             .UserTokens
-            .SingleOrDefaultAsync(e => e.UserId == currentUser.Id
+            .FirstOrDefaultAsync(e => e.UserId == currentUser.Id
                                        && e.LoginProvider == RefreshTokenProvider.LoginProvider
                                        && e.Name == RefreshTokenProvider.Name, cancellationToken);
 

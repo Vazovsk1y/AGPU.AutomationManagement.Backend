@@ -243,7 +243,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "NOT_A_REAL_EMAIL@GMAIL.COM",
                             NormalizedUserName = "SUPERUSER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGKRLS3rsV3FK588er0/TJ79/kb8CqpeoOIzyiFLit1mP93kVM+kTGLmRE4Ce2YeAg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOO9UBzV2/lxZKRaW3L9ITHx0moEJfdONMc4as4g8TgOjUsojvnkS4k+ErocAl30lQ==",
                             PhoneNumberConfirmed = false,
                             Post = "Всемогущий",
                             SecurityStamp = "3c04bbfc-9f26-444d-8028-9303e2e5f2e6",
@@ -429,11 +429,13 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
 
             modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.UserToken", b =>
                 {
-                    b.HasOne("AGPU.AutomationManagement.Domain.Entities.User", null)
-                        .WithMany()
+                    b.HasOne("AGPU.AutomationManagement.Domain.Entities.User", "User")
+                        .WithMany("Tokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -476,6 +478,8 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
             modelBuilder.Entity("AGPU.AutomationManagement.Domain.Entities.User", b =>
                 {
                     b.Navigation("Roles");
+
+                    b.Navigation("Tokens");
                 });
 #pragma warning restore 612, 618
         }

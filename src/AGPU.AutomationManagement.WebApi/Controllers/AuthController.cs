@@ -24,7 +24,6 @@ public class AuthController : BaseController
         return result.Match(e => Ok(e.ToResponse()), BadRequestWithProblemDetails);
     }
 
-    [Authorize]
     [ValidateSecurityStamp]
     [ValidateEmailConfirmation]
     [HttpPost("refresh")]

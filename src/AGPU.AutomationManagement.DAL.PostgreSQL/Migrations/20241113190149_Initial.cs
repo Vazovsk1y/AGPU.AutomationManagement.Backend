@@ -228,7 +228,7 @@ namespace AGPU.AutomationManagement.DAL.PostgreSQL.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FullName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Post", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("3c04bbfc-9f26-444d-8028-9303e2e5f2e8"), 0, "3c04bbfd-9f26-444d-8028-9303e2e5f2e8", "not_a_real_email@gmail.com", false, "Самый Первый Пользователь", false, null, "NOT_A_REAL_EMAIL@GMAIL.COM", "SUPERUSER", "AQAAAAIAAYagAAAAEGKRLS3rsV3FK588er0/TJ79/kb8CqpeoOIzyiFLit1mP93kVM+kTGLmRE4Ce2YeAg==", null, false, "Всемогущий", "3c04bbfc-9f26-444d-8028-9303e2e5f2e6", false, "SuperUser" });
+                values: new object[] { new Guid("3c04bbfc-9f26-444d-8028-9303e2e5f2e8"), 0, "3c04bbfd-9f26-444d-8028-9303e2e5f2e8", "not_a_real_email@gmail.com", false, "Самый Первый Пользователь", false, null, "NOT_A_REAL_EMAIL@GMAIL.COM", "SUPERUSER", "AQAAAAIAAYagAAAAEOO9UBzV2/lxZKRaW3L9ITHx0moEJfdONMc4as4g8TgOjUsojvnkS4k+ErocAl30lQ==", null, false, "Всемогущий", "3c04bbfc-9f26-444d-8028-9303e2e5f2e6", false, "SuperUser" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

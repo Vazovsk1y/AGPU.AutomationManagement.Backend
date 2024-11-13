@@ -25,5 +25,10 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
         builder
             .HasIndex(e => e.NormalizedEmail)
             .IsUnique();
+
+        builder
+            .HasMany(e => e.Tokens)
+            .WithOne(e => e.User)
+            .HasForeignKey(e => e.UserId);
     }
 }

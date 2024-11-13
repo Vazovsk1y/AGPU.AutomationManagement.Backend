@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 namespace AGPU.AutomationManagement.Application.Auth.UseCases;
 
 internal sealed class RefreshTokensUseCase(
-    ICurrentUserProvider currentUserProvider,
     UserManager<Domain.Entities.User> userManager,
     IWriteDbContext writeDbContext,
     AuthSettings authSettings,
@@ -21,33 +20,24 @@ internal sealed class RefreshTokensUseCase(
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var currentUser = await currentUserProvider.GetCurrentUserAsync();
-        ArgumentNullException.ThrowIfNull(currentUser);
-        
-        var refreshTokenVerificationResult = await userManager.VerifyUserTokenAsync(
-            currentUser, 
-            RefreshTokenProvider.LoginProvider,
-            RefreshTokenProvider.Name,
-            parameter.RefreshToken);
+        var target = await writeDbContext
+            .UserTokens
+            .Include(e => e.User)
+            .FirstOrDefaultAsync(e => e.LoginProvider == RefreshTokenProvider.LoginProvider &&
+                                      e.Name == RefreshTokenProvider.Name && 
+                                      e.Value == parameter.RefreshToken, cancellationToken);
 
-        if (!refreshTokenVerificationResult)
+        if (target is null)
         {
-            return Result.Failure<TokensDTO>("Невалидный refresh token.");
+            return Result.Failure<TokensDTO>("Целевой refresh токен не найден.");
         }
         
-        var existingRefreshToken = await writeDbContext
-            .UserTokens
-            .SingleAsync(e => 
-                e.UserId == currentUser.Id
-                && e.LoginProvider == RefreshTokenProvider.LoginProvider
-                && e.Name == RefreshTokenProvider.Name, cancellationToken);
-
-        var newRefreshTokenValue = await userManager.GenerateUserTokenAsync(currentUser, RefreshTokenProvider.LoginProvider, RefreshTokenProvider.Name);
-        var newAccessTokenValue = await userManager.GenerateUserTokenAsync(currentUser, AccessTokenProvider.LoginProvider, AccessTokenProvider.Name);
+        var newRefreshTokenValue = await userManager.GenerateUserTokenAsync(target.User, RefreshTokenProvider.LoginProvider, RefreshTokenProvider.Name);
+        var newAccessTokenValue = await userManager.GenerateUserTokenAsync(target.User, AccessTokenProvider.LoginProvider, AccessTokenProvider.Name);
 
         var currentDateTime = timeProvider.GetUtcNow();
-        existingRefreshToken.ExpirationDateTime = currentDateTime.Add(_tokenSettings.Refresh.TokenLifetime);
-        existingRefreshToken.Value = newRefreshTokenValue;
+        target.ExpirationDateTime = currentDateTime.Add(_tokenSettings.Refresh.TokenLifetime);
+        target.Value = newRefreshTokenValue;
 
         await writeDbContext.SaveChangesAsync(cancellationToken);
         return new TokensDTO(newAccessTokenValue, newRefreshTokenValue);

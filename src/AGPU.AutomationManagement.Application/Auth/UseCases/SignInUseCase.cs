@@ -24,7 +24,7 @@ internal sealed class SignInUseCase(
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var canLoginResult = await CanLogin(parameter);
+        var canLoginResult = await CanSignIn(parameter);
 
         if (canLoginResult.IsFailure)
         {
@@ -41,7 +41,7 @@ internal sealed class SignInUseCase(
         return new TokensDTO(accessToken, refreshToken);
     }
     
-    private async Task<Result<Domain.Entities.User>> CanLogin(SignInCommand command)
+    private async Task<Result<Domain.Entities.User>> CanSignIn(SignInCommand command)
     {
         var target = await userManager.FindByEmailAsync(command.EmailOrUsername)
                      ?? await userManager.FindByNameAsync(command.EmailOrUsername);
@@ -81,7 +81,7 @@ internal sealed class SignInUseCase(
     {
         var refreshToken = await writeDbContext
             .UserTokens
-            .SingleOrDefaultAsync(e => e.UserId == user.Id
+            .FirstOrDefaultAsync(e => e.UserId == user.Id
                                        && e.LoginProvider == RefreshTokenProvider.LoginProvider
                                        && e.Name == RefreshTokenProvider.Name);
 
