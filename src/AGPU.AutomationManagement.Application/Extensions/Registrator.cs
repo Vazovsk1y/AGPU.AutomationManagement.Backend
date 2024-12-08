@@ -1,6 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Reflection;
-using System.Security.Claims;
+﻿using System.Reflection;
 using System.Text;
 using AGPU.AutomationManagement.Application.Auth.Services;
 using AGPU.AutomationManagement.Application.Common;
@@ -10,7 +8,6 @@ using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
 namespace AGPU.AutomationManagement.Application.Extensions;
@@ -52,9 +49,6 @@ public static class Registrator
         
         var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authSettings.Tokens.Access.SecretKey));
 
-        JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
-        JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
         services.AddAuthentication(e =>
             {
                 e.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -62,27 +56,6 @@ public static class Registrator
             })
             .AddJwtBearer(options =>
             {
-                options.Events = new JwtBearerEvents
-                {
-                    OnTokenValidated = ctx =>
-                    {
-                        var principal = ctx.Principal;
-                        if (principal is null)
-                        {
-                            return Task.CompletedTask;
-                        }
-                        
-                        ctx.Principal = new ClaimsPrincipal(new ClaimsIdentity(
-                            principal.Claims,
-                            principal.Identity?.AuthenticationType,
-                            authSettings.ClaimsIdentity.UserNameClaimType,
-                            authSettings.ClaimsIdentity.RoleClaimType
-                        ));
-
-                        return Task.CompletedTask;
-                    }
-                };
-                
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
@@ -93,9 +66,14 @@ public static class Registrator
                     ValidAudience = authSettings.Tokens.Access.Audience,
                     IssuerSigningKey = signingKey,
                     ClockSkew = authSettings.Tokens.Access.ClockSkew,
+                    AuthenticationType = JwtBearerDefaults.AuthenticationScheme,
+                    RoleClaimType = authSettings.ClaimsIdentity.RoleClaimType,
+                    NameClaimType = authSettings.ClaimsIdentity.UserNameClaimType,
                 };
+
+                options.MapInboundClaims = false;
             });
-        
+
         return services;
     }
 
