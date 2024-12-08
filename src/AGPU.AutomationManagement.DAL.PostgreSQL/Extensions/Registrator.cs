@@ -35,6 +35,7 @@ public static class Registrator
             return new ApplicationDbContext(builder.Options);
         });
 
+        // For IdentityFramework.
         services.AddDbContext<ApplicationDbContext>(e => e.UseNpgsql(settings.ConnectionString));
 
         return services;

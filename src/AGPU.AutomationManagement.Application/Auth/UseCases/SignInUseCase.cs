@@ -24,14 +24,16 @@ internal sealed class SignInUseCase(
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var canLoginResult = await CanSignIn(parameter);
+        var canSignInResult = await CanSignIn(parameter);
+        
+        // TODO: Is transaction required?
 
-        if (canLoginResult.IsFailure)
+        if (canSignInResult.IsFailure)
         {
-            return canLoginResult.ToFailure<TokensDTO>();
+            return canSignInResult.ToFailure<TokensDTO>();
         }
 
-        var user = canLoginResult.Value;
+        var user = canSignInResult.Value;
         var accessToken = await userManager.GenerateUserTokenAsync(user, AccessTokenProvider.LoginProvider, AccessTokenProvider.Name);
         var refreshToken = await userManager.GenerateUserTokenAsync(user, RefreshTokenProvider.LoginProvider, RefreshTokenProvider.Name);
         

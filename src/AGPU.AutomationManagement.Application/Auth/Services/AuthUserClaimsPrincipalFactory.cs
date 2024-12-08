@@ -17,9 +17,9 @@ internal sealed class AuthUserClaimsPrincipalFactory(
     
     protected override async Task<ClaimsIdentity> GenerateClaimsAsync(Domain.Entities.User user)
     {
-        var baseId = await base.GenerateClaimsAsync(user);
-        baseId.AddClaim(new Claim(_claimsIdentity.EmailConfirmedClaimType, user.EmailConfirmed.ToString()));
+        var baseCi = await base.GenerateClaimsAsync(user);
+        baseCi.AddClaim(new Claim(_claimsIdentity.EmailConfirmedClaimType, user.EmailConfirmed.ToString()));
 
-        return new ClaimsIdentity(baseId.Claims, JwtBearerDefaults.AuthenticationScheme);
+        return new ClaimsIdentity(baseCi.Claims, JwtBearerDefaults.AuthenticationScheme);
     }
 }

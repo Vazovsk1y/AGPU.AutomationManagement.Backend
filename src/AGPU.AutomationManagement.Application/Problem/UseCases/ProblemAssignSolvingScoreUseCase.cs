@@ -18,8 +18,7 @@ internal sealed class ProblemAssignSolvingScoreUseCase(
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var currentUser = await currentUserProvider.GetCurrentUserAsync();
-        ArgumentNullException.ThrowIfNull(currentUser);
+        var currentUser = await currentUserProvider.GetRequiredCurrentUserAsync();
 
         var problem = await writeDbContext
             .Problems

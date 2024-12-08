@@ -15,8 +15,7 @@ internal sealed class ProblemByIdFetchUseCase(
     {
         cancellationToken.ThrowIfCancellationRequested();
         
-        var currentUser = await currentUserProvider.GetCurrentUserAsync();
-        ArgumentNullException.ThrowIfNull(currentUser);
+        var currentUser = await currentUserProvider.GetRequiredCurrentUserAsync();
 
         var problem = await readDbContext
             .Problems
@@ -33,6 +32,20 @@ internal sealed class ProblemByIdFetchUseCase(
                           currentUser.Roles.Any(e => e.Role.Name!.Equals(Roles.DeputyAdministrator, StringComparison.InvariantCultureIgnoreCase)),
                 "У вас нет полномочий на выполнение данной операции.");
 
-        return result.Match(pr => pr.ToDTO(), Result.Failure<ProblemDTO>);
+        return result.Match(pr => new ProblemDTO(
+            pr.Id,
+            pr.Title,
+            pr.CreationDateTime,
+            pr.Creator.FullName,
+            pr.Creator.Post,
+            pr.Contractor?.ToContractorDTO(),
+            pr.Audience,
+            pr.SolvingDateTime,
+            pr.Description,
+            pr.Status,
+            pr.Type,
+            pr.SolvingScore?.Value,
+            pr.SolvingScore?.Description
+        ), Result.Failure<ProblemDTO>);
     }
 }

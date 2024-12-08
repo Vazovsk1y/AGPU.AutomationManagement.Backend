@@ -1,6 +1,7 @@
 ﻿using AGPU.AutomationManagement.Application.Auth.Commands;
 using AGPU.AutomationManagement.Application.Auth.Services;
 using AGPU.AutomationManagement.Application.Common;
+using AGPU.AutomationManagement.Application.Extensions;
 using AGPU.AutomationManagement.DAL.PostgreSQL;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,8 +15,7 @@ internal sealed class RevokeRefreshTokenUseCase(
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var currentUser = await currentUserProvider.GetCurrentUserAsync();
-        ArgumentNullException.ThrowIfNull(currentUser);
+        var currentUser = await currentUserProvider.GetRequiredCurrentUserAsync();
         
         var refreshToken = await writeDbContext
             .UserTokens

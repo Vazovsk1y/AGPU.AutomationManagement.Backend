@@ -21,7 +21,6 @@ internal sealed class ContractorsFetchUseCase(
 
         var result = await readDbContext
             .Users
-            .Include(e => e.Roles)
             .Where(e => e.Roles.Any(i => i.RoleId == engineerRole.Id))
             .Select(e => e.ToContractorDTO())
             .ToListAsync(cancellationToken);

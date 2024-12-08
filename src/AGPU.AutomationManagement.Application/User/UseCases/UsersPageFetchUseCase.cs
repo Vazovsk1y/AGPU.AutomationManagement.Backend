@@ -6,9 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AGPU.AutomationManagement.Application.User.UseCases;
 
-internal sealed class UsersPageFetchUseCase(IReadDbContext readDbContext) : IUseCase<PageDTO<UserDTO>, UsersPageFetchQuery>
+internal sealed class UsersPageFetchUseCase(IReadDbContext readDbContext)
+    : IUseCase<PageDTO<UserDTO>, UsersPageFetchQuery>
 {
-    public async Task<Result<PageDTO<UserDTO>>> ExecuteAsync(UsersPageFetchQuery parameter, CancellationToken cancellationToken)
+    public async Task<Result<PageDTO<UserDTO>>> ExecuteAsync(UsersPageFetchQuery parameter,
+        CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -18,7 +20,12 @@ internal sealed class UsersPageFetchUseCase(IReadDbContext readDbContext) : IUse
             .Users
             .OrderBy(e => e.FullName)
             .ApplyPaging(parameter.PagingOptions)
-            .Select(e => e.ToDTO())
+            .Select(e => new UserDTO(
+                e.Id,
+                e.FullName,
+                e.Email,
+                e.UserName,
+                e.Post))
             .ToListAsync(cancellationToken);
 
         return new PageDTO<UserDTO>(result, totalItemsCount, parameter.PagingOptions);

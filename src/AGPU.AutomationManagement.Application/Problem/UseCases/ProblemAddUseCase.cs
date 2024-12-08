@@ -1,4 +1,5 @@
 ﻿using AGPU.AutomationManagement.Application.Common;
+using AGPU.AutomationManagement.Application.Extensions;
 using AGPU.AutomationManagement.Application.Problem.Commands;
 using AGPU.AutomationManagement.DAL.PostgreSQL;
 using AGPU.AutomationManagement.Domain.Enums;
@@ -14,9 +15,7 @@ internal sealed class ProblemAddUseCase(
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var currentUser = await currentUserProvider.GetCurrentUserAsync();
-        ArgumentNullException.ThrowIfNull(currentUser);
-
+        var currentUser = await currentUserProvider.GetRequiredCurrentUserAsync();
         var request = new Domain.Entities.Problem
         {
             Title = parameter.Title.Trim(),

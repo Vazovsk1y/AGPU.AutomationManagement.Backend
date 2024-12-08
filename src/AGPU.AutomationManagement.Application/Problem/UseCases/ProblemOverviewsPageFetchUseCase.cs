@@ -15,8 +15,7 @@ internal sealed class ProblemOverviewsPageFetchUseCase(
     {
         cancellationToken.ThrowIfCancellationRequested();
         
-        var currentUser = await currentUserProvider.GetCurrentUserAsync();
-        ArgumentNullException.ThrowIfNull(currentUser);
+        var currentUser = await currentUserProvider.GetRequiredCurrentUserAsync();
         
         var totalItemsCountQuery = readDbContext
             .Problems
@@ -27,9 +26,6 @@ internal sealed class ProblemOverviewsPageFetchUseCase(
 
         var resultQuery = readDbContext
             .Problems
-            .Include(e => e.Creator)
-            .Include(e => e.Contractor)
-            .Include(e => e.SolvingScore)
             .AsQueryable();
 
         resultQuery = ApplyFiltering(resultQuery, currentUser, parameter.Filters);
@@ -37,7 +33,15 @@ internal sealed class ProblemOverviewsPageFetchUseCase(
         var result = await resultQuery
             .OrderByDescending(e => e.CreationDateTime)
             .ApplyPaging(parameter.PagingOptions)
-            .Select(e => e.ToPreviewDTO())
+            .Select(e => new ProblemOverviewDTO(
+                e.Id,
+                e.Title,
+                e.CreationDateTime,
+                e.Creator.FullName,
+                e.Audience,
+                e.Status,
+                e.Type
+            ))
             .ToListAsync(cancellationToken);
 
         return new PageDTO<ProblemOverviewDTO>(result, totalItemsCount, parameter.PagingOptions);

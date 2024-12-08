@@ -17,8 +17,7 @@ internal sealed class UserRegisterUseCase(
     {
         cancellationToken.ThrowIfCancellationRequested();
         
-        var currentUser = await currentUserProvider.GetCurrentUserAsync();
-        ArgumentNullException.ThrowIfNull(currentUser);
+        var currentUser = await currentUserProvider.GetRequiredCurrentUserAsync();
         
         await using var transaction = await writeDbContext.Database.BeginTransactionAsync(cancellationToken);
         var user = new Domain.Entities.User

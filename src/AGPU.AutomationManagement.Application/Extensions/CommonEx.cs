@@ -26,4 +26,15 @@ public static class CommonEx
     {
         return string.IsNullOrWhiteSpace(value) ? null : value.Trim();
     }
+
+    public static async Task<Domain.Entities.User> GetRequiredCurrentUserAsync(this ICurrentUserProvider currentUserProvider)
+    {
+        var currentUser = await currentUserProvider.GetCurrentUserAsync();
+        if (currentUser is null)
+        {
+            throw new ApplicationException("Current user is null.");
+        }
+        
+        return currentUser;
+    }
 }

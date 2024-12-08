@@ -15,8 +15,7 @@ internal sealed class ProblemMarkSolvedUseCase(
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var currentUser = await currentUserProvider.GetCurrentUserAsync();
-        ArgumentNullException.ThrowIfNull(currentUser);
+        var currentUser = await currentUserProvider.GetRequiredCurrentUserAsync();
 
         var target = await writeDbContext
             .Problems
