@@ -16,7 +16,6 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseHttpsRedirection();
     app.MigrateDatabase();
 
     app.UseCors(e => e
