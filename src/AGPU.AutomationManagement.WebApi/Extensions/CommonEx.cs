@@ -19,26 +19,28 @@ public static class CommonEx
     {
         if (builder.Environment.IsDevelopment())
         {
-            var connectionString = builder.Configuration.GetConnectionString("Default");
-            ArgumentException.ThrowIfNullOrWhiteSpace(connectionString);
-            
-            return new DatabaseSettings()
-            {
-                ConnectionString = connectionString,
-            };
+            var launchedFromDockerVariable = Environment.GetEnvironmentVariable("WEBAPI_LAUNCHED_FROM_DOCKER");
+            var launchedFromDocker = !string.IsNullOrWhiteSpace(launchedFromDockerVariable) && bool.Parse(launchedFromDockerVariable);
+
+            var sectionName = launchedFromDocker ? "DatabaseDocker" : "DatabaseDefault";
+            var connectionString = builder.Configuration.GetConnectionString(sectionName) ?? throw new ApplicationException($"Строка подключения к базе данных для '{sectionName}' не определена.");
+            return new DatabaseSettings { ConnectionString = connectionString };
         }
         
         throw new NotImplementedException();
     }
     
-    public static AuthSettings GetAuthSettings(this WebApplicationBuilder builder)
+    public static ApplicationSettings GetApplicationSettings(this WebApplicationBuilder builder)
     {
         if (builder.Environment.IsDevelopment())
         {
             var authSettings = builder.Configuration.GetRequiredSection("Auth").Get<AuthSettings>();
             ArgumentNullException.ThrowIfNull(authSettings);
             
-            return authSettings;
+            var keysPath = Environment.GetEnvironmentVariable("WEBAPI_DATA_PROTECTION_KEYS_PATH");
+            ArgumentException.ThrowIfNullOrWhiteSpace(keysPath);
+            
+            return new ApplicationSettings { AuthSettings = authSettings, DataProtectionKeysPath = keysPath };
         }
 
         throw new NotImplementedException();

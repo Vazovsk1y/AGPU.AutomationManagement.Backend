@@ -1,0 +1,37 @@
+﻿name: automation-management
+
+volumes:
+  db.data:
+  data-protection-keys:
+
+services:
+  automation-management.webapi:
+    image: automation-management.webapi:dev
+    container_name: automation-management.webapi
+    build:
+      context: .
+      dockerfile: src/AGPU.AutomationManagement.WebApi/Dockerfile
+    restart: no
+    ports:
+      - "5555:5555"
+    environment:
+      WEBAPI_LAUNCHED_FROM_DOCKER: "True"
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_HTTP_PORTS: "5555"
+      WEBAPI_DATA_PROTECTION_KEYS_PATH: "/app/data-protection-keys"
+    volumes:
+      - data-protection-keys:/app/data-protection-keys
+    depends_on:
+      - automation-management.database
+      
+  automation-management.database:
+    image: postgres:16-bullseye
+    container_name: automation-management.database
+    restart: no
+    volumes:
+      - db.data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=AutomationManagementDb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345678
+      

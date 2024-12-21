@@ -6,6 +6,7 @@ using AGPU.AutomationManagement.Application.Infrastructure.Settings;
 using AGPU.AutomationManagement.DAL.PostgreSQL;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -14,8 +15,9 @@ namespace AGPU.AutomationManagement.Application.Extensions;
 
 public static class Registrator
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services, AuthSettings authSettings)
+    public static IServiceCollection AddApplication(this IServiceCollection services, ApplicationSettings applicationSettings)
     {
+        var authSettings = applicationSettings.AuthSettings;
         services.AddSingleton(authSettings);
 
         services.AddUseCases();
@@ -73,6 +75,11 @@ public static class Registrator
 
                 options.MapInboundClaims = false;
             });
+        
+        // NOTE: Keys stored in unencrypted form.
+        services.AddDataProtection()
+            .PersistKeysToFileSystem(new DirectoryInfo(applicationSettings.DataProtectionKeysPath))
+            .SetApplicationName("AGPU.AutomationManagement");
 
         return services;
     }

@@ -5,7 +5,7 @@ using AGPU.AutomationManagement.WebApi.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddWebApi();
-builder.Services.AddApplication(builder.GetAuthSettings());
+builder.Services.AddApplication(builder.GetApplicationSettings());
 builder.Services.AddDataAccessLayer(builder.GetDatabaseSettings());
 
 var app = builder.Build();
