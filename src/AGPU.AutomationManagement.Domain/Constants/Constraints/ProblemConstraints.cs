@@ -2,5 +2,9 @@
 
 public static class ProblemConstraints
 {
-    public const int NameMaxLength = 75;
+    public const int DescriptionMaxLength = 350;
+
+    public const int AudienceMaxLength = 50;
+
+    public const int TitleMaxLength = 100;
 }

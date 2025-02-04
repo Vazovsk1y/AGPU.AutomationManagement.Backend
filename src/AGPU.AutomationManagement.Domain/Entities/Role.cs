@@ -5,5 +5,5 @@ namespace AGPU.AutomationManagement.Domain.Entities;
 
 public sealed class Role : IdentityRole<Guid>, IEntity
 {
-    
+    public IEnumerable<UserRole> Users { get; init; } = new List<UserRole>();
 }
